@@ -17,7 +17,8 @@ from config import DB_CREDENTIALS
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
+PROJ_ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)), os.pardir))
+RES_ROOT = os.path.abspath(os.path.join(PROJ_ROOT, os.pardir, 'res'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.10/howto/deployment/checklist/
@@ -59,7 +60,7 @@ ROOT_URLCONF = 'src.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')]
+        'DIRS': [os.path.join(BASE_DIR, 'res/template')]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
