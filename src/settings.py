@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'src.register',
     'src.login',
+    'src.checkupreminder'
 ]
 # django.setup()
 MIDDLEWARE = [

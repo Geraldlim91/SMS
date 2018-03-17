@@ -7,7 +7,7 @@ from datetime import datetime, timedelta
 # Create your views here.
 
 def register(request):
-    otherVars = {'pageType':'register'};
+    otherVars = {'pageType':'register'}
     # if request method is post
     if request.method == 'POST':
         regForm = registerForm(request.POST)
