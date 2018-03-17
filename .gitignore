@@ -3,3 +3,4 @@ config.py
 .idea/
 .git/
 *.py[cod]
+src/urls.py

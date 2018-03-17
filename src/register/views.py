@@ -1,9 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
-from django.core.urlresolvers import reverse,reverse_lazy
+from django.core.urlresolvers import reverse
 from forms import registerForm
 from models import User_Profile
-from datetime import datetime, timedelta
 # Create your views here.
 
 def register(request):
@@ -25,17 +24,11 @@ def register(request):
                 userIns.contact_num = 'N.A'
             else:
                 userIns.contact_num = request.POST['contact_num']
-            if userIns.company == None:
-                userIns.company = 'N.A'
-            else:
-                userIns.company = request.POST['company']
 
             userIns.save()
             return HttpResponseRedirect(reverse('login'))
         else:
             pass
-
-
     else:
         regForm = registerForm()
 
@@ -61,7 +54,6 @@ def register(request):
     regForm.fields["contact_num"].widget.attrs['hgrp'] = '1'
     regForm.fields["contact_num"].widget.attrs['wsize'] = '300'
     regForm.fields["contact_num"].label = 'Contact number'
-
 
 
     return render(request, 'main/register.html', {'otherVars':otherVars,'regForm':regForm,'hgrps':hgrps})

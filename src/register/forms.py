@@ -13,8 +13,9 @@ class registerForm(forms.Form):
     username = forms.CharField(max_length=32)
     email = forms.CharField(max_length=50)
     password = forms.CharField(label=("Password"), widget=forms.PasswordInput, help_text= "Password must be at least 8 characters long,</br>and contain at least 1 upper-case letter, 1 lower-case letter and 1 numeric digit")
-    confirm_password = forms.CharField(label=(u'Confirm password'),widget=forms.PasswordInput(render_value = False),help_text="Retype the password")
+    confirm_password = forms.CharField(label=(u'Confirm password'),widget=forms.PasswordInput(render_value = False))
     first_name = forms.CharField(max_length=30)
+    # first_name = forms.CharField(max_length=30)
     last_name = forms.CharField(max_length=30)
     contact_num = forms.CharField(max_length=8, required=False,widget=forms.TextInput(attrs={'placeholder': 'Optional'}))
 
