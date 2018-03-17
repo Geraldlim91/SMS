@@ -5,18 +5,18 @@ import re
 
 
 class registerForm(forms.Form):
-    def __init__(self, *args, **kwargs):
-        user = kwargs.pop('user', None)
-        hgrps = kwargs.pop('hgrps', None)
-
-        super(registerForm, self).__init__(*args, **kwargs)
-        username = forms.CharField(max_length=32)
-        email = forms.CharField(max_length=50)
-        password = forms.CharField(label=("Password"), widget=forms.PasswordInput, help_text= "Password must be at least 8 characters long,</br>and contain at least 1 upper-case letter, 1 lower-case letter and 1 numeric digit")
-        confirm_password = forms.CharField(label=(u'Confirm password'),widget=forms.PasswordInput(render_value = False),help_text="Retype the password")
-        first_name = forms.CharField(max_length=30)
-        last_name = forms.CharField(max_length=30)
-        contact_num = forms.CharField(max_length=8, required=False,widget=forms.TextInput(attrs={'placeholder': 'Optional'}))
+    # def __init__(self, *args, **kwargs):
+    #     user = kwargs.pop('user', None)
+    #     hgrps = kwargs.pop('hgrps', None)
+    #
+    #     super(registerForm, self).__init__(*args, **kwargs)
+    username = forms.CharField(max_length=32)
+    email = forms.CharField(max_length=50)
+    password = forms.CharField(label=("Password"), widget=forms.PasswordInput, help_text= "Password must be at least 8 characters long,</br>and contain at least 1 upper-case letter, 1 lower-case letter and 1 numeric digit")
+    confirm_password = forms.CharField(label=(u'Confirm password'),widget=forms.PasswordInput(render_value = False),help_text="Retype the password")
+    first_name = forms.CharField(max_length=30)
+    last_name = forms.CharField(max_length=30)
+    contact_num = forms.CharField(max_length=8, required=False,widget=forms.TextInput(attrs={'placeholder': 'Optional'}))
 
     #Validation for email field
     def clean_email(self):
