@@ -63,8 +63,5 @@ def register(request):
     regForm.fields["contact_num"].label = 'Contact number'
 
 
-    regForm.fields["company"].widget.attrs['hgrp'] = '1'
-    regForm.fields["company"].widget.attrs['wsize'] = '300'
-
 
     return render(request, 'main/register.html', {'otherVars':otherVars,'regForm':regForm,'hgrps':hgrps})

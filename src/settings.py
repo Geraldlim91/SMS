@@ -136,4 +136,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 
 STATIC_URL = '/static/'
+
+STATICFILES_DIRS = (
+    os.path.join(os.path.abspath(os.path.join(os.path.realpath(__file__), os.path.pardir, os.path.pardir)), 'res/drawable'),
+)
+
 django.setup()
