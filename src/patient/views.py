@@ -11,6 +11,8 @@ from django.db.models import Q
 from django.utils.timezone import localtime
 from src.login.decorator import login_active_required
 from models import Patient, Patient_Record
+from forms import AddPatientForm
+from datetime import date
 
 # @login_active_required(login_url=reverse_lazy('src.login'))
 def patientView(request, msgNote=""):
@@ -31,6 +33,8 @@ def patientView(request, msgNote=""):
             patientObj.full_name,
             patientObj.gender,
             str(patientObj.dob),
+            str(patientObj.age),
+            patientObj.email,
         ])
     tableInfo = {'patientList': json.dumps(patientList), 'numOfRecords': numOfRecords}
 
@@ -158,3 +162,65 @@ def patientView(request, msgNote=""):
 #             return HttpResponseRedirect(reverse('userView'))
 #     else:
 #         return HttpResponseRedirect(reverse('a_index'))
+
+# @login_active_required(login_url=reverse_lazy('login'))
+def patientAdd(request):
+    otherVars = {'pageType':'addPatient'}
+    # if request method is post
+    if request.method == 'POST':
+        addPatientForm = AddPatientForm(request.POST)
+
+        # input validation for add user and user profile form
+        if addPatientForm.is_valid():
+            # save the user and user profile object into database
+            patientIns = Patient()
+            patientIns.nric = request.POST['nric']
+            patientIns.contact_num(request.POST['contact_num'])
+            patientIns.gender = request.POST['gender']
+            patientIns.dob = request.POST['dob']
+            patientIns.address = request.POST['address']
+            patientIns.postalcode = request.POST['postalcode']
+            patientIns.nok = request.POST['nok']
+            patientIns.age =  date.today().year - patientIns.dob.year
+            patientIns.email = request.POST['email']
+            patientIns.allergy = request.POST['allergy']
+            patientIns.save()
+            return HttpResponseRedirect(reverse('login'))
+        else:
+            pass
+    else:
+        addPatientForm = AddPatientForm()
+
+    # Define header groups
+    hgrps = ({'name':'Patient Information','lblwidth':'160'}, {'name':'Next-of-Kin Information','lblwidth':'160'},)
+    # For first header group
+    addPatientForm.fields["nric"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["contact_num"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["contact_num"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["gender"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["gender"].widget.attrs['wsize'] = '300'
+
+    # For first header group
+    addPatientForm.fields["dob"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["dob"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["address"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["address"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["postalcode"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["postalcode"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["email"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["email"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["allergy"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["allergy"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["nok"].widget.attrs['hgrp'] = '1'
+    addPatientForm.fields["nok"].widget.attrs['wsize'] = '300'
+
+
+    return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
