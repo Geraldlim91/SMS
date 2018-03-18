@@ -211,6 +211,7 @@ def patientAdd(request):
 def patientEdit(request, nricvalue=None):
     patientObj = get_or_none(Patient, nric=nricvalue)
     # Define header groups
+    otherVars = {'edit': 'Y'}
 
     # if request method is post\
 
@@ -281,45 +282,28 @@ def patientEdit(request, nricvalue=None):
     addPatientForm.fields["nok"].widget.attrs['wsize'] = '300'
 
     hgrps = ({'name': 'Patient Information', 'lblwidth': '160'}, {'name': 'Next-of-Kin Information', 'lblwidth': '160'},)
-    otherVars = {'edit': 'Y'}
-    return render(request, 'main/patientchng.html', {'otherVars': otherVars, 'hgrps': hgrps, 'addPatientForm': addPatientForm})
 
-def patientRecordView(request, msgNote=""):
-    otherVars = {}
-    displayMsg = None
-    if msgNote:
-        displayMsg = msgNote
-    elif 'msgNote' in request.session:
-        displayMsg = request.session['msgNote']
-
-
-    numOfRecords = Patient.objects.count()
-    patientObject = Patient.objects.all().order_by('nric')[:10]
-    patientList = []
-    for patientObj in patientObject:
-        patientList.append([
-            patientObj.nric,
-            patientObj.full_name,
-            patientObj.gender,
-            str(patientObj.age),
-            str(patientObj.visit_time),
+    numOfRecords = Patient_Record.objects.filter(nric=nricvalue).count()
+    caseObject = Patient_Record.objects.filter(nric=nricvalue).order_by('-record_create_datetime')[:10]
+    caseList = []
+    for caseObj in caseObject:
+        caseList.append([
+            caseObj.id,
+            caseObj.symptoms,
+            caseObj.diagnosis,
+            str(caseObj.record_create_datetime),
         ])
-    tableInfo = {'patientList': json.dumps(patientList), 'numOfRecords': numOfRecords}
+    tableInfo = {'caseList': json.dumps(caseList), 'numOfRecords': numOfRecords}
 
-    if len(patientList) > 0:
+    if len(caseList) > 0:
         tableInfo['recordStart'] = 1
-        tableInfo['recordEnd'] = len(patientList)
+        tableInfo['recordEnd'] = len(caseList)
     if numOfRecords > 10:
         tableInfo['nextEnabled'] = 'Y'
-
-
-    # Message to display when delete is pressed (<title>,<body>)
-    delMsg = ('Delete user(s)?', 'user(s) will be permanently deleted and cannot be recovered. \
-              You can consider inactivating the accounts instead. Are you sure you want to proceed to delete the users?')
-
     # Message to display when table has no records
-    tabEmptyMsg = 'No user accounts available for viewing'
-    return render(request, 'main/patientview.html', {'otherVars': otherVars, 'tableInfo': tableInfo, 'delMsg': delMsg, 'tabEmptyMsg': tabEmptyMsg})
+    tabEmptyMsg = 'Patient has no previous medical case to show'
+    return render(request, 'main/patientchng.html', {'otherVars': otherVars, 'hgrps': hgrps, 'addPatientForm': addPatientForm,'tableInfo': tableInfo,'tabEmptyMsg': tabEmptyMsg,})
+
 
 
 def patientCaseAdd(request, nricvalue=None ):
