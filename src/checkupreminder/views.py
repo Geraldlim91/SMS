@@ -86,54 +86,53 @@ def addScreening(request):
         # input validation for add user and user profile form
         if addnewscreening.is_valid():
             # save the user and user profile object into database
-            patientIns = Patient()
-            patientIns.nric = request.POST['nric']
-            patientIns.contact_num(request.POST['contact_num'])
-            patientIns.gender = request.POST['gender']
-            patientIns.dob = request.POST['dob']
-            patientIns.address = request.POST['address']
-            patientIns.postalcode = request.POST['postalcode']
-            patientIns.nok = request.POST['nok']
-            patientIns.age =  date.today().year - patientIns.dob.year
-            patientIns.email = request.POST['email']
-            patientIns.allergy = request.POST['allergy']
-            patientIns.save()
-            return HttpResponseRedirect(reverse('login'))
+            newrecord = NotificationCriteria()
+            newrecord.screeningName = request.POST['screening_name']
+            newrecord.agegrp = request.POST['age_grp']
+            newrecord.gender = request.POST['gender']
+            newrecord.description = request.POST['description']
+            newrecord.message = request.POST['message']
+            newrecord.save()
         else:
             pass
     else:
         addnewscreening = addScreeningForm()
 
     # Define header groups
-    hgrps = ({'name':'Patient Information','lblwidth':'160'}, {'name':'Next-of-Kin Information','lblwidth':'160'},)
+    hgrps = ({'name':'Screening Notification Criteria','lblwidth':'160'},)
     # For first header group
-    addnewscreening.fields["screeningname"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["screeningname"].widget.attrs['wsize'] = '300'
+    addnewscreening.fields["screening_name"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["screening_name"].widget.attrs['wsize'] = '300'
 
-    addnewscreening.fields["contact_num"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["contact_num"].widget.attrs['wsize'] = '300'
+    addnewscreening.fields["age_grp"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["age_grp"].widget.attrs['wsize'] = '300'
 
     addnewscreening.fields["gender"].widget.attrs['hgrp'] = '0'
     addnewscreening.fields["gender"].widget.attrs['wsize'] = '300'
 
+    addnewscreening.fields["description"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["description"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["message"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["message"].widget.attrs['wsize'] = '300'
+
     # For first header group
-    addnewscreening.fields["dob"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["dob"].widget.attrs['wsize'] = '300'
+    # addnewscreening.fields["dob"].widget.attrs['hgrp'] = '0'
+    # addnewscreening.fields["dob"].widget.attrs['wsize'] = '300'
+    #
+    # addnewscreening.fields["address"].widget.attrs['hgrp'] = '0'
+    # addnewscreening.fields["address"].widget.attrs['wsize'] = '300'
+    #
+    # addnewscreening.fields["postalcode"].widget.attrs['hgrp'] = '0'
+    # addnewscreening.fields["postalcode"].widget.attrs['wsize'] = '300'
+    #
+    # addnewscreening.fields["email"].widget.attrs['hgrp'] = '0'
+    # addnewscreening.fields["email"].widget.attrs['wsize'] = '300'
+    #
+    # addnewscreening.fields["allergy"].widget.attrs['hgrp'] = '0'
+    # addnewscreening.fields["allergy"].widget.attrs['wsize'] = '300'
+    #
+    # addnewscreening.fields["nok"].widget.attrs['hgrp'] = '1'
+    # addnewscreening.fields["nok"].widget.attrs['wsize'] = '300'
 
-    addnewscreening.fields["address"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["address"].widget.attrs['wsize'] = '300'
-
-    addnewscreening.fields["postalcode"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["postalcode"].widget.attrs['wsize'] = '300'
-
-    addnewscreening.fields["email"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["email"].widget.attrs['wsize'] = '300'
-
-    addnewscreening.fields["allergy"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["allergy"].widget.attrs['wsize'] = '300'
-
-    addnewscreening.fields["nok"].widget.attrs['hgrp'] = '1'
-    addnewscreening.fields["nok"].widget.attrs['wsize'] = '300'
-
-
-    return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
+    return render(request, 'main/addscreeningform.html', {'otherVars':otherVars,'addscreeningform':addnewscreening,'hgrps':hgrps})

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
-import re
+from models import NotificationCriteria
 
 
 class reminderForm(forms.Form):
@@ -20,14 +20,14 @@ class reminderForm(forms.Form):
 
 
 class addScreeningForm(forms.Form):
-    screeningname = forms.CharField(max_length=32, label="Screening Name")
-    age_grp = forms.CharField(max_length=100, label="Age Group")
+    screening_name = forms.CharField(max_length=32, label="Screening Name*")
+    age_grp = forms.CharField(max_length=100, label="Age Group*")
     gender = forms.CharField(max_length=20, label="Gender")
-    description = forms.CharField(max_length=20, label="Description")
-    message = forms.CharField(max_length=20, label="Reminder message")
+    description = forms.CharField(max_length=20, label="Description*",widget=forms.Textarea)
+    message = forms.CharField(max_length=20, label="Reminder message*",widget=forms.Textarea)
 
     class Meta:
-        model = Patient
+        model = NotificationCriteria
         # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
 
     def clean_email(self):
