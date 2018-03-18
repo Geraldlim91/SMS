@@ -5,7 +5,9 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse,reverse_lazy
 from forms import reminderForm
 from django.shortcuts import render
-
+from models import NotificationCriteria
+from src.util.mail import SendMail
+from ..patient.models import Patient
 
 # Create your views here.
 def reminder(request):
@@ -15,10 +17,27 @@ def reminder(request):
         remForm = reminderForm(request.POST)
         screenings = request.POST.getlist('screening')
         for s in screenings:
-            print s
+            receipentGrp = NotificationCriteria.objects.get(screeningName=s)
+            agegroup = receipentGrp.agegrp
+            gender = receipentGrp.gender
+            message = receipentGrp.message
+            l_age,u_age = agegroup.split("-")
+            l_age = int(l_age)
+            u_age = int(u_age)
+            patientObject = Patient.objects.all().order_by('nric')
+            for p in patientObject:
+                p_gender = p.gender
+                p_age = int(p.age)
+                p_email = p.email
+                if gender is None:
+                    if p_age >= l_age and p_age <= u_age:
+                        SendMail(p_email,"Screening Reminder",message)
 
-        if remForm.is_valid():
-            screenings = remForm.cleaned_data.get('screenings')
+                else:
+                    if p_age >= l_age and p_age <= u_age and p_gender == gender:
+                        SendMail(p_email,"Screening Reminder",message)
+
+
 
 
 
