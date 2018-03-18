@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse,reverse_lazy
-from forms import reminderForm
+from forms import reminderForm,addScreeningForm
 from django.shortcuts import render
 from models import NotificationCriteria
 from src.util.mail import SendMail
@@ -24,18 +24,18 @@ def reminder(request):
             l_age,u_age = agegroup.split("-")
             l_age = int(l_age)
             u_age = int(u_age)
+            pArray = []
             patientObject = Patient.objects.all().order_by('nric')
             for p in patientObject:
                 p_gender = p.gender
                 p_age = int(p.age)
-                p_email = p.email
+                pArray.append(p.email)
                 if gender is None:
                     if p_age >= l_age and p_age <= u_age:
-                        SendMail(p_email,"Screening Reminder",message)
-
+                        SendMail(pArray,"Screening Reminder",message)
                 else:
                     if p_age >= l_age and p_age <= u_age and p_gender == gender:
-                        SendMail(p_email,"Screening Reminder",message)
+                        SendMail(pArray,"Screening Reminder",message)
 
 
 
@@ -76,3 +76,64 @@ def reminder(request):
    # remForm.fields["checkup1"].widget.attrs['wsize'] = '100'
 
     return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps})
+
+def addScreening(request):
+    otherVars = {'pageType':'addscreeningforreminder'}
+    # if request method is post
+    if request.method == 'POST':
+        addnewscreening = addScreeningForm(request.POST)
+
+        # input validation for add user and user profile form
+        if addnewscreening.is_valid():
+            # save the user and user profile object into database
+            patientIns = Patient()
+            patientIns.nric = request.POST['nric']
+            patientIns.contact_num(request.POST['contact_num'])
+            patientIns.gender = request.POST['gender']
+            patientIns.dob = request.POST['dob']
+            patientIns.address = request.POST['address']
+            patientIns.postalcode = request.POST['postalcode']
+            patientIns.nok = request.POST['nok']
+            patientIns.age =  date.today().year - patientIns.dob.year
+            patientIns.email = request.POST['email']
+            patientIns.allergy = request.POST['allergy']
+            patientIns.save()
+            return HttpResponseRedirect(reverse('login'))
+        else:
+            pass
+    else:
+        addnewscreening = addScreeningForm()
+
+    # Define header groups
+    hgrps = ({'name':'Patient Information','lblwidth':'160'}, {'name':'Next-of-Kin Information','lblwidth':'160'},)
+    # For first header group
+    addnewscreening.fields["screeningname"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["screeningname"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["contact_num"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["contact_num"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["gender"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["gender"].widget.attrs['wsize'] = '300'
+
+    # For first header group
+    addnewscreening.fields["dob"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["dob"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["address"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["address"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["postalcode"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["postalcode"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["email"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["email"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["allergy"].widget.attrs['hgrp'] = '0'
+    addnewscreening.fields["allergy"].widget.attrs['wsize'] = '300'
+
+    addnewscreening.fields["nok"].widget.attrs['hgrp'] = '1'
+    addnewscreening.fields["nok"].widget.attrs['wsize'] = '300'
+
+
+    return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})

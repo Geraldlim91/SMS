@@ -19,6 +19,26 @@ class reminderForm(forms.Form):
      #   raise forms.ValidationError("You have not selected any illness!")
 
 
+class addScreeningForm(forms.Form):
+    screeningname = forms.CharField(max_length=32, label="Screening Name")
+    age_grp = forms.CharField(max_length=100, label="Age Group")
+    gender = forms.CharField(max_length=20, label="Gender")
+    description = forms.CharField(max_length=20, label="Description")
+    message = forms.CharField(max_length=20, label="Reminder message")
+
+    class Meta:
+        model = Patient
+        # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+
+        if len(email) == 0:
+            raise forms.ValidationError("This field is required.")
+        if re.search("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", email, re.IGNORECASE) is None:
+            raise forms.ValidationError("Email address is invalid")
+
+        return email
 
 
 
