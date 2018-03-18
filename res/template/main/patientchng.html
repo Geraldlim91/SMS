@@ -133,7 +133,12 @@
     <div class="container">
         <div style="padding:0px 15px 15px 15px;">
             <span id="page_header">
+
+        {% if not otherVars.edit %}
             Register new Patient
+        {% else %}
+            Edit and View Patient Details
+        {% endif %}
             </span>
             <form enctype="multipart/form-data" action="" method="post">
                 {% csrf_token %}

@@ -13,7 +13,7 @@ from src.util.customfunc import isInt, get_or_none,djangoDate
 from src.login.decorator import login_active_required
 from models import Patient, Patient_Record
 from forms import AddPatientForm
-from datetime import date
+from datetime import date, time
 
 # @login_active_required(login_url=reverse_lazy('src.login'))
 def patientView(request, msgNote=""):
@@ -143,28 +143,30 @@ def patientViewUpdate(request):
 # @login_active_required(login_url=reverse_lazy('login'))
 def patientAdd(request):
     otherVars = {'pageType':'addPatient'}
+    print request.method
+
     # if request method is post
     if request.method == 'POST':
         addPatientForm = AddPatientForm(request.POST)
 
         # input validation for add user and user profile form
         if addPatientForm.is_valid():
-            # save the user and user profile object into database
+        # save the user and user profile object into database
             patientIns = Patient()
             patientIns.nric = request.POST['nric']
-            patientIns.contact_num(request.POST['contact_num'])
+            patientIns.full_name = request.POST['full_name']
+            patientIns.contact_num = request.POST['contact_num']
             patientIns.gender = request.POST['gender']
             patientIns.dob = request.POST['dob']
             patientIns.address = request.POST['address']
             patientIns.postalcode = request.POST['postalcode']
             patientIns.nok = request.POST['nok']
-            patientIns.age =  date.today().year - patientIns.dob.year
+            patientIns.age =  date.today().year - int(str(patientIns.dob).split('-')[0])
             patientIns.email = request.POST['email']
             patientIns.allergy = request.POST['allergy']
+            patientIns.visit_time = time()
             patientIns.save()
-            return HttpResponseRedirect(reverse('login'))
-        else:
-            pass
+            return HttpResponseRedirect(reverse('patientView'))
     else:
         addPatientForm = AddPatientForm()
 
@@ -173,6 +175,84 @@ def patientAdd(request):
     # For first header group
     addPatientForm.fields["nric"].widget.attrs['hgrp'] = '0'
     addPatientForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["full_name"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["full_name"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["contact_num"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["contact_num"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["gender"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["gender"].widget.attrs['wsize'] = '300'
+
+    # # For first header group
+    addPatientForm.fields["dob"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["dob"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["address"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["address"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["postalcode"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["postalcode"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["email"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["email"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["allergy"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["allergy"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["nok"].widget.attrs['hgrp'] = '1'
+    addPatientForm.fields["nok"].widget.attrs['wsize'] = '300'
+
+
+    return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
+
+def patientEdit(request, nricvalue=None):
+    patientObj = get_or_none(Patient, nric=nricvalue)
+    # Define header groups
+
+    # if request method is post\
+
+    if request.method == 'POST':
+        addPatientForm = AddPatientForm(request.POST)
+
+        # input validation for add user and user profile form
+
+
+            # update user information
+        if addPatientForm.is_valid():
+            patientObj.nric = request.POST['nric']
+            patientObj.full_name = request.POST['full_name']
+            patientObj.contact_num = request.POST['contact_num']
+            patientObj.gender = request.POST['gender']
+            patientObj.dob = request.POST['dob']
+            patientObj.address = request.POST['address']
+            patientObj.postalcode = request.POST['postalcode']
+            patientObj.nok = request.POST['nok']
+            patientObj.age = date.today().year - int(str(patientObj.dob).split('-')[0])
+            patientObj.email = request.POST['email']
+            patientObj.allergy = request.POST['allergy']
+            patientObj.save()
+            return HttpResponseRedirect(reverse('patientView'))
+    else:
+        addPatientForm = AddPatientForm(initial={
+            'nric': patientObj.nric,
+            'full_name': patientObj.full_name,
+            'contact_num': patientObj.contact_num,
+            'gender': patientObj.gender,
+            'dob': patientObj.dob,
+            'address': patientObj.address,
+            'postalcode': patientObj.postalcode,
+            'nok': patientObj.nok,
+            'email': patientObj.email,
+            'allergy': patientObj.allergy,
+        })
+        # For first header group
+    addPatientForm.fields["nric"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientForm.fields["full_name"].widget.attrs['hgrp'] = '0'
+    addPatientForm.fields["full_name"].widget.attrs['wsize'] = '300'
 
     addPatientForm.fields["contact_num"].widget.attrs['hgrp'] = '0'
     addPatientForm.fields["contact_num"].widget.attrs['wsize'] = '300'
@@ -199,5 +279,44 @@ def patientAdd(request):
     addPatientForm.fields["nok"].widget.attrs['hgrp'] = '1'
     addPatientForm.fields["nok"].widget.attrs['wsize'] = '300'
 
+    hgrps = ({'name': 'Patient Information', 'lblwidth': '160'}, {'name': 'Next-of-Kin Information', 'lblwidth': '160'},)
+    otherVars = {'edit': 'Y'}
+    return render(request, 'main/patientchng.html', {'otherVars': otherVars, 'hgrps': hgrps, 'addPatientForm': addPatientForm})
 
-    return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
+def patientRecordView(request, msgNote=""):
+    otherVars = {}
+    displayMsg = None
+    if msgNote:
+        displayMsg = msgNote
+    elif 'msgNote' in request.session:
+        displayMsg = request.session['msgNote']
+
+
+    numOfRecords = Patient.objects.count()
+    patientObject = Patient.objects.all().order_by('nric')[:10]
+    patientList = []
+    for patientObj in patientObject:
+        patientList.append([
+            patientObj.nric,
+            patientObj.full_name,
+            patientObj.gender,
+            str(patientObj.age),
+            str(patientObj.visit_time),
+        ])
+    tableInfo = {'patientList': json.dumps(patientList), 'numOfRecords': numOfRecords}
+
+    if len(patientList) > 0:
+        tableInfo['recordStart'] = 1
+        tableInfo['recordEnd'] = len(patientList)
+    if numOfRecords > 10:
+        tableInfo['nextEnabled'] = 'Y'
+
+
+    # Message to display when delete is pressed (<title>,<body>)
+    delMsg = ('Delete user(s)?', 'user(s) will be permanently deleted and cannot be recovered. \
+              You can consider inactivating the accounts instead. Are you sure you want to proceed to delete the users?')
+
+    # Message to display when table has no records
+    tabEmptyMsg = 'No user accounts available for viewing'
+    return render(request, 'main/patientview.html', {'otherVars': otherVars, 'tableInfo': tableInfo, 'delMsg': delMsg, 'tabEmptyMsg': tabEmptyMsg})
+

@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.contrib.auth.models import User
 from django.db import models
+import datetime
 
 class Patient(models.Model):
     nric = models.CharField(primary_key=True, unique=True, max_length=9)
@@ -23,7 +24,9 @@ class Patient_Record(models.Model):
     nric = models.ForeignKey(Patient)
     medical_description = models.TextField()
     medical_history = models.TextField()
-    record_create_datetime = models.TimeField(default="00:00:00")
-
+    symptoms = models.TextField()
+    diagnosis = models.TextField()
+    record_create_datetime = models.TimeField(default=datetime.datetime.utcnow())
+    
     class Meta:
         db_table = 'patient_record'

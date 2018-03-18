@@ -165,7 +165,22 @@
     <script src="{% static 'buildTable/buildTable.js' %}"></script>
     <script type="text/javascript">
         // function to handle actions that user selected (for highlighted rows)
+        function selectActHandler(element, checkValArr){
+            if (checkValArr.length > 0){
+                var selected = $(element).val();
+                switch (selected){
+                    case "Edit":
+                        if (checkValArr.length == 1)
+                            window.location.href = "{% url 'patientEditUrl' %}" + checkValArr[0];
+                        break;
 
+                        $("#dialog-confirm").dialog("open");
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
         $(document).ready(function (){
             // timeout for notification message
             setTimeout(function() {
@@ -193,6 +208,9 @@
                 checkActFunc : function(checkValArr){
                     selectActHandler(this,checkValArr);
                 },
+                clickableFunc : function(){
+                        window.location.href = "{% url 'patientEditUrl' %}" + $(this).text();
+                    },
                 addFilInput : false,
                 {#availFilters : {{ filterVars|safe }},#}
                 completeEvenFunc : function(){
