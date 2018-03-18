@@ -146,12 +146,10 @@
                         <div class="form-horizontal">
                             {%  csrf_token %}
                             <fieldset>
-                                <label>Full body health screening</label>
-                                <input type="checkbox" name="screening" value="fullbody" id="screening" /> <br />
-                                <label>Lung Cancer screening</label>
-                                <input type="checkbox" name="screening" value="lung" id="screening" /><br />
-                                <label>Mammography(Breast Cancer Screening)</label>
-                                <input type="checkbox" name="screening" value="mammo" id="screening" /><br />
+                                {%  for screen in screenTable %}
+                                <label>{{ screen.description }}</label>
+                                <input type="checkbox" name="screening" value={{ screen.value }} id="screening" /> <br />
+                                {% endfor %}
                             </fieldset>
                         </div>
                     </div>
