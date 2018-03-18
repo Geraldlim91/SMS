@@ -30,7 +30,6 @@ Subject: %s
             s.ehlo()
             s.login(ServerMail, ServerMailPassword)
             s.sendmail(ServerMail, eachEmail, message)
-            print eachEmail
             s.quit()
         except SMTPException:
             print "Error: unable to send email"

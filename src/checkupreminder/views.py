@@ -14,11 +14,14 @@ def reminder(request):
     otherVars = {'pageType' : 'checkup'}
 
     if request.method == 'POST':
-        remForm = reminderForm(request.POST)
+        # remForm = reminderForm(request.POST)
         screenings = request.POST.getlist('screening')
+        print request.POST.getlist('screening')
+        if not request.POST.getlist('screening') :
+            otherVars.update({'msgNote':'Please select a input'})
+
         for s in screenings:
-            print str(s)
-            receipentGrp = NotificationCriteria.objects.get(screeningName=s)
+            receipentGrp = NotificationCriteria.objects.get(id=int(s))
             agegroup = receipentGrp.agegrp
             gender = receipentGrp.gender
             message = receipentGrp.message
@@ -37,45 +40,17 @@ def reminder(request):
                 else:
                     if p_age >= l_age and p_age <= u_age and p_gender == gender:
                         SendMail(pArray,"Screening Reminder",message)
-
-
-
-
-
+            otherVars.update({'msgNote': 'Send Complete'})
     else:
-        remForm = reminderForm()
+        pass
+        # remForm = reminderForm()
 
-
-        # input validation for add user and user profile form
-        #if remForm.is_valid():
-            # userIns = User_Profile()
-            # userIns.email = request.POST['email']
-            # userIns.username = userIns.email
-            # userIns.set_password(request.POST['password'])
-            # userIns.first_name = request.POST['first_name']
-            # userIns.last_name = request.POST['last_name']
-            # if userIns.contact_num == None:
-            #    userIns.contact_num = 'N.A'
-            # else:
-            #     userIns.contact_num = request.POST['contact_num']
-            # if userIns.company == None:
-            #     userIns.company = 'N.A'
-            # else:
-            #     userIns.company = request.POST['company']
-            #
-            # userIns.save()
-            # return HttpResponseRedirect(reverse('login'))
-        #else:
-           # pass
-
-    #else:
-        #remForm = reminderForm()
 
 # Define header groups
     screentable = []
-    screen = NotificationCriteria.objects.all()
+    screen = NotificationCriteria.objects.all().order_by('id')
     for i in screen:
-        screentable.append({'description':i.description, 'value':i.screeningName})
+        screentable.append({'description':i.description, 'value':i.id})
     hgrps = ({'name':'Type of check up','lblwidth':'160'},)
    # remForm.fields["checkup1"].widget.attrs['hgrp'] = '0'
    # remForm.fields["checkup1"].widget.attrs['wsize'] = '100'
@@ -87,7 +62,6 @@ def addScreening(request):
     # if request method is post
     if request.method == 'POST':
         addnewscreening = addScreeningForm(request.POST)
-
         # input validation for add user and user profile form
         if addnewscreening.is_valid():
             # save the newscreening object into database

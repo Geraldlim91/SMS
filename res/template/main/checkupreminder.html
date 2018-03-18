@@ -79,6 +79,15 @@
 			padding:10px 0px 0px 15px;
 			color:#9999A5;
 		}
+        #msgNotify
+        {
+            display:block;
+            border: 1px dotted Gray;
+            padding: 5px 0px 5px 10px;
+            margin-bottom:10px;
+            font-size:13px;
+            background-color:#FCFFB8;
+        }
 		#cancel_btn
 		{
 			margin-left:10px;
@@ -132,10 +141,15 @@
 {% block content %}
     <div class="container">
         <div style="padding:0px 15px 15px 15px;">
-
+                {% if otherVars.msgNote %}
+                    <span id="msgNotify">
+                    {{ otherVars.msgNote|safe }}
+                </span>
+                {% endif %}
                  <span id="page_header" style="display:inline;">
                 Screening Reminder
                 </span>
+
                 <span id="add_new" style="display:inline; float:right;">
                     <a href="add/"><input class="btn btn-success" type="button" value="Add new screening reminder"/> </a>
                 </span>
@@ -153,21 +167,7 @@
                                 {%  for screen in screenTable %}
                                 <label>{{ screen.description }}</label>
                                 <input type="checkbox" name="screening" value={{ screen.value }} id="screening" /> <br />
-                                 {% if formItem.help_text %}
-                                                    <span class="helptext">{{ formItem.help_text|safe }}</span>
-                                                {% endif %}
-                                                {% if formItem.errors %}
-                                                    <span class="errorcss">
-                                                        <ul>
-                                                            {% for error in formItem.errors %}
-                                                                <li>
-                                                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;vertical-align:2px;"></span>
-                                                                    <strong>{{ error|escape }}</strong>
-                                                                </li>
-                                                            {% endfor %}
-                                                        </ul>
-                                                    </span>
-                                                {% endif %}
+
                                 {% endfor %}
 
                             </fieldset>
@@ -188,25 +188,7 @@
 
 {% block misc_docend %}
 	<script type="text/javascript">
-
-    function onSubmit()
-{
-    var fields = $("input[name='screening']").serializeArray();
-    if (fields.length === 0)
-    {
-        alert('nothing selected');
-        // cancel submit
-        return false;
-    }
-   // else
-    //{
-      //  alert(fields.length + " items selected");
-    //}
-}
-// register event on form, not submit button
-$('#screeningReminder').submit(onSubmit)
-
-		function extensionCheck(element){r
+		function extensionCheck(element){
 			var control = $(element);
 			var ext = control.val().split('.').pop().toLowerCase();
 			if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
@@ -222,7 +204,14 @@ $('#screeningReminder').submit(onSubmit)
 				$('#id_avatar_img').change(function(){
 					extensionCheck(this);
 				})
-			}
-		});
+			};
+
+            setTimeout(function() {
+                $('#msgNotify').fadeOut(3, function(){
+                    resizeFunc();
+                });
+            },4500);
+        })
+
 	</script>
 {% endblock %}
