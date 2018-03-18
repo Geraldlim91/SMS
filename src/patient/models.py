@@ -23,6 +23,7 @@ class Patient_Record(models.Model):
     nric = models.ForeignKey(Patient)
     medical_description = models.TextField()
     medical_history = models.TimeField()
+    record_create_datetime = models.TimeField()
 
     class Meta:
         db_table = 'patient_record'
