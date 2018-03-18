@@ -16,7 +16,6 @@ def reminder(request):
     if request.method == 'POST':
         # remForm = reminderForm(request.POST)
         screenings = request.POST.getlist('screening')
-        print request.POST.getlist('screening')
         if not request.POST.getlist('screening') :
             otherVars.update({'msgNote':'Please select a input'})
 
