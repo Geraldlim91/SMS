@@ -27,13 +27,13 @@ class registerForm(forms.Form):
             raise forms.ValidationError("This field is required.")
         if re.search("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", email ,re.IGNORECASE) == None:
             raise forms.ValidationError("Email address is invalid")
-        if User_Profile.objects.filter(email = email).count() != 0:
+        if User.objects.filter(email = email).count() != 0:
             raise forms.ValidationError("A user have registered an account with this email.")
 
 
         return email
     class Meta:
-        model = User_Profile
+        model = User
     #Validation for password field
     def clean_password(self):
         password = self.cleaned_data.get('password', '')

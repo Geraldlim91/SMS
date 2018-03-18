@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse,reverse_lazy
 from forms import addScreeningForm
 from django.shortcuts import render
 from models import NotificationCriteria
 from src.util.mail import SendMail
 from ..patient.models import Patient
+from src.login.decorator import login_active_required
 
-# Create your views here.
+
+@login_active_required(login_url=reverse_lazy('login'))
 def reminder(request):
-    otherVars = {'pageType' : 'checkup'}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
 
     if request.method == 'POST':
         # remForm = reminderForm(request.POST)
@@ -44,7 +44,6 @@ def reminder(request):
         pass
         # remForm = reminderForm()
 
-
 # Define header groups
     screentable = []
     screen = NotificationCriteria.objects.all().order_by('id')
@@ -57,8 +56,9 @@ def reminder(request):
 
     return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps, 'screenTable':screentable})
 
+@login_active_required(login_url=reverse_lazy('login'))
 def addScreening(request):
-    otherVars = {'pageType':'addscreeningforreminder'}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
     # if request method is post
     if request.method == 'POST':
         addnewscreening = addScreeningForm(request.POST)

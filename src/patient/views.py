@@ -3,22 +3,19 @@ import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse, reverse_lazy
-from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User, Group
-from django.db import connection
 from django.http import HttpResponse
 from django.db.models import Q
-from django.utils.timezone import localtime
-from src.util.customfunc import isInt, get_or_none,djangoDate
+from src.util.customfunc import isInt, get_or_none
 from src.login.decorator import login_active_required
 from models import Patient, Patient_Record
 from forms import AddPatientForm,AddPatientCaseForm
 from datetime import date, time
 from src.util.customfunc import symptomcheck
 
-# @login_active_required(login_url=reverse_lazy('src.login'))
+@login_active_required(login_url=reverse_lazy('login'))
 def patientView(request, msgNote=""):
-    otherVars = {}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+
     displayMsg = None
     if msgNote:
         displayMsg = msgNote
@@ -55,8 +52,10 @@ def patientView(request, msgNote=""):
     return render(request, 'main/patientview.html', {'otherVars': otherVars, 'tableInfo': tableInfo, 'delMsg': delMsg, 'tabEmptyMsg': tabEmptyMsg})
 
 
-# @login_active_required(login_url=reverse_lazy('login'))
+@login_active_required(login_url=reverse_lazy('login'))
 def patientViewUpdate(request):
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+
     if request.method == 'POST':
         sortingNames = ['nric', 'full_name', 'gender', 'age', 'visit_time',]
         sortOrder = []
@@ -141,10 +140,9 @@ def patientViewUpdate(request):
         return HttpResponseRedirect(reverse('patientView'))
 
 
-# @login_active_required(login_url=reverse_lazy('login'))
+@login_active_required(login_url=reverse_lazy('login'))
 def patientAdd(request):
-    otherVars = {'pageType':'addPatient'}
-    print request.method
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
 
     # if request method is post
     if request.method == 'POST':
@@ -209,9 +207,10 @@ def patientAdd(request):
     return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
 
 def patientEdit(request, nricvalue=None):
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name,'edit': 'Y'}
+
     patientObj = get_or_none(Patient, nric=nricvalue)
     # Define header groups
-    otherVars = {'edit': 'Y'}
 
     # if request method is post\
 
@@ -307,7 +306,8 @@ def patientEdit(request, nricvalue=None):
 
 
 def patientCaseAdd(request, nricvalue=None ):
-    otherVars = {'pageType':'addPatient'}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+
     print request.method
 
     # if request method is post

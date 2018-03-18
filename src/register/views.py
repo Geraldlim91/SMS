@@ -3,6 +3,8 @@ from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from forms import registerForm
 from models import User_Profile
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 def register(request):
@@ -10,22 +12,25 @@ def register(request):
     # if request method is post
     if request.method == 'POST':
         regForm = registerForm(request.POST)
-
-        # input validation for add user and user profile form
+        #
+        # # input validation for add user and user profile form
         if regForm.is_valid():
+
             # save the user and user profile object into database
-            userIns = User_Profile()
+            userIns = User()
             userIns.email = request.POST['email']
-            userIns.username = userIns.email
+            userIns.username = request.POST['email']
             userIns.set_password(request.POST['password'])
             userIns.first_name = request.POST['first_name']
             userIns.last_name = request.POST['last_name']
-            if userIns.contact_num == None:
-                userIns.contact_num = 'N.A'
-            else:
-                userIns.contact_num = request.POST['contact_num']
 
             userIns.save()
+
+            userIns2 = User_Profile()
+            userIns2.user_id = userIns.id
+            userIns2.contact_num = request.POST['contact_num']
+
+            userIns2.save()
             return HttpResponseRedirect(reverse('login'))
         else:
             pass

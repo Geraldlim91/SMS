@@ -4,7 +4,7 @@ from django.contrib.auth.validators import ASCIIUsernameValidator
 
 class User_Profile(models.Model):
 
-    id = models.AutoField(primary_key=True)
-    user = models.OneToOneField(User, unique=True)
+    user = models.ForeignKey(User, primary_key=True, unique=True)
+    contact_num = models.CharField(max_length=10)
     class Meta:
         db_table = "user"

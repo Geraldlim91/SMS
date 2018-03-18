@@ -31,10 +31,6 @@ class LoginForm(forms.Form):
             if self.user_cache is None:
                 raise forms.ValidationError(
                     "Please enter a correct email and password. Note that both fields are case-sensitive.")
-            elif not self.user_cache.is_active:
-                raise forms.ValidationError("This user account is inactive.")
-            elif not self.user_cache.is_staff:
-                raise forms.ValidationError("This user account does not have permission to access the domain.")
         self.check_for_test_cookie()
         return self.cleaned_data
 

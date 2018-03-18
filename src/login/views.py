@@ -13,7 +13,7 @@ def login(request):
 #     print resolve(request.path_info).url_name
     otherVars['pageType'] = 'login'
     if request.user.is_authenticated():
-        return HttpResponseRedirect(reverse('fileView'))
+        return HttpResponseRedirect(reverse('patientView'))
 
     # If the form has been submitted...
     if request.method == 'POST':
@@ -32,7 +32,7 @@ def login(request):
                 else:
                     request.session.set_expiry(0)
 
-                return HttpResponseRedirect(reverse('fileView'))
+                return HttpResponseRedirect(reverse('patientView'))
             otherVars['loginActive'] = 'Y'
 
         if '_reset' in request.POST:
