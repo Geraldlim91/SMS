@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from models import NotificationCriteria
 import re
 
 
@@ -27,7 +28,7 @@ class addScreeningForm(forms.Form):
     message = forms.CharField(max_length=20, label="Reminder message")
 
     class Meta:
-        model = Patient
+        model = NotificationCriteria
         # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
 
     def clean_email(self):
