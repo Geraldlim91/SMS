@@ -90,7 +90,7 @@ def addScreening(request):
 
         # input validation for add user and user profile form
         if addnewscreening.is_valid():
-            # save the user and user profile object into database
+            # save the newscreening object into database
             newrecord = NotificationCriteria()
             newrecord.screeningName = request.POST['screening_name']
             newrecord.agegrp = request.POST['age_grp']
@@ -120,24 +120,5 @@ def addScreening(request):
 
     addnewscreening.fields["message"].widget.attrs['hgrp'] = '0'
     addnewscreening.fields["message"].widget.attrs['wsize'] = '300'
-
-    # For first header group
-    # addnewscreening.fields["dob"].widget.attrs['hgrp'] = '0'
-    # addnewscreening.fields["dob"].widget.attrs['wsize'] = '300'
-    #
-    # addnewscreening.fields["address"].widget.attrs['hgrp'] = '0'
-    # addnewscreening.fields["address"].widget.attrs['wsize'] = '300'
-    #
-    # addnewscreening.fields["postalcode"].widget.attrs['hgrp'] = '0'
-    # addnewscreening.fields["postalcode"].widget.attrs['wsize'] = '300'
-    #
-    # addnewscreening.fields["email"].widget.attrs['hgrp'] = '0'
-    # addnewscreening.fields["email"].widget.attrs['wsize'] = '300'
-    #
-    # addnewscreening.fields["allergy"].widget.attrs['hgrp'] = '0'
-    # addnewscreening.fields["allergy"].widget.attrs['wsize'] = '300'
-    #
-    # addnewscreening.fields["nok"].widget.attrs['hgrp'] = '1'
-    # addnewscreening.fields["nok"].widget.attrs['wsize'] = '300'
 
     return render(request, 'main/addscreeningform.html', {'otherVars':otherVars,'addscreeningform':addnewscreening,'hgrps':hgrps})

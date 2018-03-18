@@ -132,9 +132,13 @@
 {% block content %}
     <div class="container">
         <div style="padding:0px 15px 15px 15px;">
-            <span id="page_header">
-            Screening Reminder
-            </span>
+
+                 <span id="page_header" style="display:inline;">
+                Screening Reminder
+                </span>
+                <span id="add_new" style="display:inline; float:right;">
+                    <a href="add/"><input class="btn btn-success" type="button" value="Add new screening reminder"/> </a>
+                </span>
             <form enctype="multipart/form-data" action="" method="post" action = "views.py" id="screeningReminder">
                 {% csrf_token %}
                 {% for groupH in hgrps %}
@@ -149,7 +153,23 @@
                                 {%  for screen in screenTable %}
                                 <label>{{ screen.description }}</label>
                                 <input type="checkbox" name="screening" value={{ screen.value }} id="screening" /> <br />
+                                 {% if formItem.help_text %}
+                                                    <span class="helptext">{{ formItem.help_text|safe }}</span>
+                                                {% endif %}
+                                                {% if formItem.errors %}
+                                                    <span class="errorcss">
+                                                        <ul>
+                                                            {% for error in formItem.errors %}
+                                                                <li>
+                                                                    <span class="glyphicon glyphicon-chevron-right" style="font-size:10px;vertical-align:2px;"></span>
+                                                                    <strong>{{ error|escape }}</strong>
+                                                                </li>
+                                                            {% endfor %}
+                                                        </ul>
+                                                    </span>
+                                                {% endif %}
                                 {% endfor %}
+
                             </fieldset>
                         </div>
                     </div>

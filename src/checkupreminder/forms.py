@@ -11,7 +11,7 @@ class reminderForm(forms.Form):
         ("checkup3", "Brain Cancer screening"),
     )
     screenings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                          choices=OPTIONS)
+                                          choices=OPTIONS,required=True)
 
     #illness1= forms.BooleanField(widget=forms.CheckboxInput,label="Full body health screening")
    # illness2 = forms.BooleanField(widget=forms.CheckboxInput,label="Lung Cancer screening")
@@ -21,27 +21,14 @@ class reminderForm(forms.Form):
 
 
 class addScreeningForm(forms.Form):
-    screeningname = forms.CharField(max_length=32, label="Screening Name")
+    screening_name = forms.CharField(max_length=32, label="Screening Name")
     age_grp = forms.CharField(max_length=100, label="Age Group")
-    gender = forms.CharField(max_length=20, label="Gender")
-    description = forms.CharField(max_length=20, label="Description")
-    message = forms.CharField(max_length=20, label="Reminder message")
+    gender = forms.CharField(max_length=20, label="Gender", required=False)
+    description = forms.CharField(max_length=400, label="Description",widget=forms.Textarea)
+    message = forms.CharField(max_length=400, label="Reminder message",widget=forms.Textarea)
 
     class Meta:
         model = NotificationCriteria
         # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
 
-    def clean_email(self):
-        email = self.cleaned_data.get('email', '')
-
-        if len(email) == 0:
-            raise forms.ValidationError("This field is required.")
-        if re.search("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$", email, re.IGNORECASE) is None:
-            raise forms.ValidationError("Email address is invalid")
-
-        return email
-
-
-
-   # if bool(illness1) == False:
 

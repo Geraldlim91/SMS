@@ -3,5 +3,5 @@ from . import views
 
 urlpatterns = [
     url(r'^checkupreminder/$', views.reminder),
-    url(r'^checkupreminder/add/$',views.addScreening),
+    url(r'^checkupreminder/add/$',views.addScreening)
 ]
