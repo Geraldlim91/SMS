@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.db import models
 import datetime
 
+
 class Patient(models.Model):
     nric = models.CharField(primary_key=True, unique=True, max_length=9)
     full_name = models.CharField(max_length=100)
@@ -19,6 +20,7 @@ class Patient(models.Model):
 
     class Meta:
         db_table = 'patient'
+
 
 class Patient_Record(models.Model):
     nric = models.ForeignKey(Patient)

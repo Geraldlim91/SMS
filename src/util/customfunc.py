@@ -5,6 +5,18 @@ import datetime
 import string
 
 
+def symptomcheck(symptoms):
+    diagnoses = []
+    with open('../util/json/symptoms.json') as json_data:
+        data = json.load(json_data)
+        for d in data:
+            for s in symptoms:
+                if (d.has_key(s)):
+                    diagnoses.append(d)
+
+    json_data.close()
+    return diagnoses
+
 def getSign(boolean, status, id):
     sign = '<span class="fa %s" style="color:%s; cursor:pointer;"  title=\'Toggle %s\' onclick=\"javascript:window.location.href=\'changestatus%s/%s\'\" />'
     if status == 'PGactive':

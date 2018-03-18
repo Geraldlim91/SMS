@@ -12,8 +12,9 @@ from django.utils.timezone import localtime
 from src.util.customfunc import isInt, get_or_none,djangoDate
 from src.login.decorator import login_active_required
 from models import Patient, Patient_Record
-from forms import AddPatientForm
+from forms import AddPatientForm,AddPatientCaseForm
 from datetime import date, time
+from src.util.customfunc import symptomcheck
 
 # @login_active_required(login_url=reverse_lazy('src.login'))
 def patientView(request, msgNote=""):
@@ -320,3 +321,73 @@ def patientRecordView(request, msgNote=""):
     tabEmptyMsg = 'No user accounts available for viewing'
     return render(request, 'main/patientview.html', {'otherVars': otherVars, 'tableInfo': tableInfo, 'delMsg': delMsg, 'tabEmptyMsg': tabEmptyMsg})
 
+
+def patientCaseAdd(request, nricvalue=None ):
+    otherVars = {'pageType':'addPatient'}
+    print request.method
+
+    # if request method is post
+    if request.method == 'POST':
+        addPatientCaseForm = AddPatientCaseForm(request.POST)
+        # input validation for add user and user profile form
+        if addPatientCaseForm.is_valid():
+        # save the user and user profile object into database
+            recordIns = Patient_Record()
+            recordIns.nric = nricvalue
+            recordIns.medical_description = request.POST['medical_description']
+            recordIns.medical_history = request.POST['medical_history']
+            recordIns.symptoms = request.POST['symptoms']
+            recordIns.address = request.POST['address']
+            recordIns.diagnosis = request.POST['diagnosis']
+            recordIns.visit_time = time()
+            recordIns.save()
+
+            symptoms = list()
+            symptoms.append(request.POST['symptoms'])
+            list_dict = symptomcheck(symptoms)
+            possible_diagnoses = list()
+            for diag in list_dict:
+                key_list = diag.keys()
+                for k in key_list:
+                    possible_diagnoses += diag[k]
+
+
+            # for diag in list_dict:
+            #     for key,value in diag:
+            #         listdiag = value
+            #     print key
+
+
+            #     key_list = diag.keys()
+            # for diag in list_dict:
+            #     for k in key_list:
+            #         possible_diagnoses = diag[k]
+            #
+
+
+
+
+            return HttpResponseRedirect(reverse('patientView'))
+    else:
+        addPatientCaseForm = AddPatientCaseForm(initial={
+            'nric': nricvalue})
+
+    # Define header groups
+    hgrps = ({'name':'Case Information','lblwidth':'160'},)
+    # For first header group
+    addPatientCaseForm.fields["nric"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientCaseForm.fields["medical_description"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["medical_description"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["medical_history"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["medical_history"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["symptoms"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["symptoms"].widget.attrs['wsize'] = '300'
+
+    addPatientCaseForm.fields["diagnosis"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["diagnosis"].widget.attrs['wsize'] = '600'
+
+    return render(request, 'main/patientcaseform.html', {'otherVars':otherVars,'addPatientCaseForm':addPatientCaseForm,'hgrps':hgrps})

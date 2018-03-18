@@ -8,6 +8,16 @@ from django.contrib.auth.models import User, Group, Permission
 from models import Patient, Patient_Record
 
 
+class AddPatientCaseForm(forms.Form):
+    nric = forms.CharField(max_length=32, label="NRIC",disabled=True)
+    medical_description =  forms.CharField(label="Medical Description",widget=forms.Textarea)
+    medical_history = forms.CharField(label="Medical History",widget=forms.Textarea)
+    symptoms = forms.CharField(label="Symptoms")
+    diagnosis = forms.CharField(label="Diagnosis",widget=forms.Textarea)
+
+    class Meta:
+        model = Patient_Record
+
 
 # add user form
 class AddPatientForm(forms.Form):
@@ -22,22 +32,10 @@ class AddPatientForm(forms.Form):
     email = forms.CharField(max_length=50)
     allergy = forms.CharField(max_length=100)
 
-    def __init__(self, *args, **kwargs):
-        hgrps = kwargs.pop('hgrps', None)
-        super(AddPatientForm, self).__init__(*args, **kwargs)
-        # For first header group
-        if hgrps is not None:
-            for val in hgrps:
-                for key, item in self.fields.iteritems():
-                    # For first header group
-                    if val['name'] in ['Add Mobile Device', 'Edit Mobile Device']:
-                        item.widget.attrs['hgrp'] = '0'
-                        if key == 'active':
-                            item.widget.attrs['switch'] = ''
     class Meta:
         model = Patient
 
-        # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
+
 
     def clean_email(self):
         email = self.cleaned_data.get('email', '')

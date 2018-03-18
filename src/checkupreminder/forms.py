@@ -27,8 +27,8 @@ class addScreeningForm(forms.Form):
     screening_name = forms.CharField(max_length=32, label="Screening Name")
     age_grp = forms.CharField(max_length=100, label="Age Group")
     gender = forms.CharField(max_length=20, label="Gender", required=False)
-    description = forms.CharField(max_length=400, label="Description",widget=forms.Textarea)
-    message = forms.CharField(max_length=400, label="Reminder message",widget=forms.Textarea)
+    description = forms.CharField(label="Description",widget=forms.Textarea)
+    message = forms.CharField(label="Reminder message",widget=forms.Textarea)
 
     class Meta:
         model = NotificationCriteria

@@ -1,5 +1,5 @@
 from django.conf.urls import url
-from views import patientView, patientAdd, patientViewUpdate, patientEdit
+from views import patientView, patientAdd, patientViewUpdate, patientEdit,patientCaseAdd
 from django.core.urlresolvers import reverse_lazy
 from django.views.generic import RedirectView
 
@@ -9,4 +9,5 @@ urlpatterns = [
     url(r'^patient/add/$', patientAdd, name='patientAdd'),
     url(r'^patient/editpatient/$', RedirectView.as_view(url=reverse_lazy('patientView')), name='patientEditUrl'),
     url(r'^patient/editpatient/(?P<nricvalue>\w+)$', patientEdit, name='patientEdit'),
+    url(r'^patient/addcase/(?P<nricvalue>\w+)$',patientCaseAdd, name="patientCaseAdd")
 ]
