@@ -9,7 +9,6 @@ class NotificationCriteria(models.Model):
     screeningName = models.CharField(max_length=100)
     gender = models.CharField(max_length=12,null=True)
     agegrp = models.CharField(max_length=10)
-    description = models.TextField(null=True)
     message = models.TextField(null=False)
 
     class Meta:

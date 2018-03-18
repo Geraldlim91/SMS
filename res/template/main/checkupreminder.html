@@ -163,23 +163,24 @@
                     <div class="group_body">
                         <div class="form-horizontal">
                             {%  csrf_token %}
-                            <fieldset>
-                                {%  for screen in screenTable %}
-                                <label>{{ screen.description }}</label>
-                                <input type="checkbox" name="screening" value={{ screen.value }} id="screening" /> <br />
+                        {%  for screen in screenTable %}
+                        <div class="form-group">
+                                <label class="col-sm-3 control-label" style="max-width:{{ groupH.lblwidth }}px">{{ screen.screening_name }}</label>
+                            <div class="col-sm-10" style="max-width: 300px;">
+                            <input type="checkbox" name="screening" value={{ screen.value }} id="screening" /> <br />
 
-                                {% endfor %}
-
-                            </fieldset>
                         </div>
+                        </div>
+                             {% endfor %}
                     </div>
                 {% endfor %}
 
-                <input class="btn btn-info submit_btn" type="submit" value="Send Email" name="_submit"/>
-                <!--{{ remForm.non_field_errors }} -->
+
                <!-- <input class="btn btn-info submit_btn" type="submit" value="Send Email {% if otherVars.profUpdate %}Update{% elif otherVars.passChange %}Change{% elif otherVars.edit %}Edit{% else %}{% endif %}" name="_submit" />
                 -->
                 </div>
+                </div>
+            <input class="btn btn-info submit_btn" type="submit" value="Send Email" name="_submit"/>
             </form>
         </div>
     </div>

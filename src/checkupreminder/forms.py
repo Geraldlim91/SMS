@@ -4,14 +4,17 @@ from models import NotificationCriteria
 import re
 
 
-class reminderForm(forms.Form):
-    OPTIONS = (
-        ("checkup1", "Full body health screening"),
-        ("checkup2", "Lung Cancer screening"),
-        ("checkup3", "Brain Cancer screening"),
-    )
-    screenings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,
-                                          choices=OPTIONS,required=True)
+#class reminderForm(forms.Form):
+
+    # #OPTIONS = (
+    #  #   ("checkup1", "Full body health screening"),
+    #     ("checkup2", "Lung Cancer screening"),
+    #     ("checkup3", "Brain Cancer screening"),
+    # )
+    # screenings = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple,choices=OPTIONS,required=True)
+
+    #class Meta:
+       #model = NotificationCriteria
 
     #illness1= forms.BooleanField(widget=forms.CheckboxInput,label="Full body health screening")
    # illness2 = forms.BooleanField(widget=forms.CheckboxInput,label="Lung Cancer screening")

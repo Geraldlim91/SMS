@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse,reverse_lazy
-from forms import reminderForm,addScreeningForm
+from forms import addScreeningForm
 from django.shortcuts import render
 from models import NotificationCriteria
 from src.util.mail import SendMail
@@ -49,8 +49,9 @@ def reminder(request):
     screentable = []
     screen = NotificationCriteria.objects.all().order_by('id')
     for i in screen:
-        screentable.append({'description':i.description, 'value':i.id})
-    hgrps = ({'name':'Type of check up','lblwidth':'160'},)
+        screentable.append({'screening_name':i.screeningName, 'value':i.id})
+    hgrps = ({'name':'Type of check up','lblwidth':'400'},)
+
    # remForm.fields["checkup1"].widget.attrs['hgrp'] = '0'
    # remForm.fields["checkup1"].widget.attrs['wsize'] = '100'
 
