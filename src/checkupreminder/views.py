@@ -17,6 +17,7 @@ def reminder(request):
         remForm = reminderForm(request.POST)
         screenings = request.POST.getlist('screening')
         for s in screenings:
+            print str(s)
             receipentGrp = NotificationCriteria.objects.get(screeningName=s)
             agegroup = receipentGrp.agegrp
             gender = receipentGrp.gender
@@ -71,11 +72,15 @@ def reminder(request):
         #remForm = reminderForm()
 
 # Define header groups
+    screentable = []
+    screen = NotificationCriteria.objects.all()
+    for i in screen:
+        screentable.append({'description':i.description, 'value':i.screeningName})
     hgrps = ({'name':'Type of check up','lblwidth':'160'},)
    # remForm.fields["checkup1"].widget.attrs['hgrp'] = '0'
    # remForm.fields["checkup1"].widget.attrs['wsize'] = '100'
 
-    return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps})
+    return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps, 'screenTable':screentable})
 
 def addScreening(request):
     otherVars = {'pageType':'addscreeningforreminder'}
