@@ -210,7 +210,7 @@ def patientAdd(request):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientEdit(request, nricvalue=None):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name,'edit': 'Y', 'nric':nricvalue}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name_name,'edit': 'Y', 'nric':nricvalue}
     patientObj = get_or_none(Patient, nric=nricvalue)
     if request.method == 'POST':
         addPatientForm = AddPatientForm(request.POST)
@@ -326,7 +326,7 @@ def caseViewUpdate(request, nricvalue=None):
                 query &= item
 
         if query:
-            numOfRecords = Patient_Record.objects.filter(query).count()
+            numOfRecords = Patient_Record.objects.filter(nric=nricvalue).filter(query).count()
         else:
             numOfRecords = Patient_Record.objects.filter(nric=nricvalue).count()
 
@@ -349,9 +349,9 @@ def caseViewUpdate(request, nricvalue=None):
         if recordStart < 1 or 'firstSearch' in request.POST:
             recordStart = 1
         if query:
-            caseObjects = Patient_Record.objects.filter(query).order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
+            caseObjects = Patient_Record.objects.filter(nric=nricvalue).filter(query).order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
         else:
-            caseObjects = Patient_Record.objects.all().order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
+            caseObjects = Patient_Record.objects.filter(nric=nricvalue).order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
 
         listLength = len(caseObjects)
         caseList = []
