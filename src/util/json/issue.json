@@ -1,6 +1,6 @@
 [
   {
-    "German measles": {
+    "german measles": {
 
     "Description": "Rubella is a viral illness.  It usually affects school children and its less infectious than mumps or measles.",
     "DescriptionShort": "Rubella is a viral illness with noticeable splotchy skin rash, light fever, and swelling of the lymph nodes in the throat. A vaccination against rubella is available.",
@@ -15,7 +15,7 @@
 
   },
   {
-    "Huntington's disease": {
+    "huntington's disease": {
     "Description": "Huntington’s disease (previously Huntington’s chorea) is a genetic disorder in which patients experience personality disorders, dementia, and uncontrollable, asymmetrical movements.  It affects about 5-10 people in every 100,000.",
     "DescriptionShort": "Huntington’s disease (previously Huntington’s chorea) is a genetic disorder in which patients experience personality disorders, dementia, and uncontrollable, asymmetrical movements.",
     "MedicalCondition": "The first symptoms usually appear when the patient is in their 40s or 50s. patients experience psychiatric disorders (personality changes, dementia, depression, psychosis) and typical bizarre movement disorders.",
@@ -28,7 +28,7 @@
   },
 
   {
-    "Listeria infection": {
+    "listeria infection": {
     "Description": "Listeriosis is a foodborne bacterial infection. The bacterium is called listeria monocytogenes and exists in the soil and water. It can contaminate food, especially raw food like soft cheese and it can even survive at the low temperatures of a refrigerator.",
     "DescriptionShort": "Listeriosis is an infectious disease that is caused by food that is contaminated with a bacterium called \"Listeria monocytogenes.” Patients show flu-like symptoms and sometimes even develop meningitis. Listeriosis especially affects those with weak immune systems, very old people, pregnant women, or newborns. A prompt antibiotic treatment is necessary.",
     "MedicalCondition": "Listeriosis mainly affects people with weaker immune systems, for example older people, pregnant women and newborns. Patients infected with listeriosis may have symptoms including nausea and vomiting, fever and chills, stomach problems and headache. Sometimes they may develop septicemia or meningitis.",
@@ -40,7 +40,7 @@
   }
   },
   {
-    "Lyme disease": {
+    "lyme disease": {
     "Description": "Lyme disease is a bacterial infection spread by ticks that can affect various organs, including the skin, nervous system, musculoskeletal system, and the heart.",
     "DescriptionShort": "Lyme disease (Lyme borreliosis) is an infectious bacterial disease spread by ticks that affects the skin, nervous system, musculoskeletal system, and the heart.  It can be treated with antibiotics.",
     "MedicalCondition": "Three stages of the disease are recognized.  In the first stage, a couple of days after the bite, a red ring or bullseye on the skin (Erythema migrans) appears, which may be preceded by headaches, lethargy, fever, and joint pain.  The redness can last several days to a week and usually heals on its own.  In the second stage, after several weeks or months, some patients will experience an attack on the joints, meninges, nerve roots, the skin, and (rarely) the heart.  This leads to the third stage, if it is left untreated, which is damage to the organs.",
@@ -53,7 +53,7 @@
   },
 
   {
-    "Reflux disease": {
+    "reflux disease": {
   "Description": "Reflux disease is very common worldwide.  It is usually due to a backflow of stomach acid through a weakened esophagus.  If this occurs regularly, it will develop into gastroesophageal reflux disease, a burning of the mucous membrane in the esophagus.",
   "DescriptionShort": "Gastroesophageal reflux disease is often referred to as gastric or acid reflux disease, as this is the most common complaint.  The cause of this symptom is a backflow of stomach acid into the esophagus, which then causes a burning sensation (hence the name).",
   "MedicalCondition": "Gastroesophageal reflux disease occurs in about 20% of the population in industrial countries.  The main symptom is a dull burning, or feelings of pain or pressure in the throat and chest areas, which is where it gets the common name heartburn.  It frequently occurs when lying down (at night for example), after copious eating, or after consumption of alcohol and can become noticeable as a chronic cough.",

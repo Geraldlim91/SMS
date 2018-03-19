@@ -1,6 +1,6 @@
 [
   {
-    "Abdominal pain": [
+    "abdominal pain": [
       {
         "id": 1,
         "diagnosis": "Bloated belly"
@@ -28,7 +28,7 @@
     ]
   },
   {
-    "Anxiety": [
+    "anxiety": [
       {
         "id": 1,
         "diagnosis": "Excessive feeling of fear"
@@ -40,7 +40,7 @@
     ]
   },
   {
-    "Back pain": [
+    "back pain": [
       {
         "id": 1,
         "diagnosis": "Slipped disc"
@@ -56,7 +56,7 @@
     ]
   },
   {
-    "Burning eyes": [
+    "burning eyes": [
       {
         "id": 1,
         "diagnosis": "Hypersensitivity reaction"
@@ -68,7 +68,7 @@
     ]
   },
   {
-    "Chest pain": [
+    "chest pain": [
       {
         "id": 1,
         "diagnosis": "Reflux disease"
