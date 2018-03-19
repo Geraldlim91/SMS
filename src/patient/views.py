@@ -182,11 +182,11 @@ def patientAdd(request):
     addPatientForm.fields["contact_num"].widget.attrs['wsize'] = '300'
 
     addPatientForm.fields["gender"].widget.attrs['hgrp'] = '0'
-    addPatientForm.fields["gender"].widget.attrs['wsize'] = '300'
+    addPatientForm.fields["gender"].widget.attrs['wsize'] = '120'
 
     # # For first header group
     addPatientForm.fields["dob"].widget.attrs['hgrp'] = '0'
-    addPatientForm.fields["dob"].widget.attrs['wsize'] = '300'
+    addPatientForm.fields["dob"].widget.attrs['wsize'] = '150'
 
     addPatientForm.fields["address"].widget.attrs['hgrp'] = '0'
     addPatientForm.fields["address"].widget.attrs['wsize'] = '300'
