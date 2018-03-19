@@ -144,4 +144,4 @@ STATICFILES_DIRS = (
     os.path.join(os.path.abspath(os.path.join(os.path.realpath(__file__), os.path.pardir, os.path.pardir)), 'res/drawable'),
 )
 
-django.setup()
+# django.setup()

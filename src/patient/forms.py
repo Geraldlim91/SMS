@@ -9,11 +9,11 @@ from models import Patient, Patient_Record
 
 
 class AddPatientCaseForm(forms.Form):
-    nric = forms.CharField(max_length=32, label="NRIC",disabled=True)
-    medical_description =  forms.CharField(label="Medical Description",widget=forms.Textarea)
-    medical_history = forms.CharField(label="Medical History",widget=forms.Textarea)
+    nric = forms.CharField(max_length=32, label="NRIC")
+    medical_description =  forms.CharField(label="Medical Description",widget=forms.Textarea, required=False)
+    medical_history = forms.CharField(label="Medical History",widget=forms.Textarea, required=False)
     symptoms = forms.CharField(label="Symptoms")
-    diagnosis = forms.CharField(label="Diagnosis",widget=forms.Textarea)
+    diagnosis = forms.CharField(label="Diagnosis",widget=forms.Textarea, required=False)
 
     class Meta:
         model = Patient_Record

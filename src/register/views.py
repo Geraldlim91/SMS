@@ -12,14 +12,16 @@ def register(request):
     # if request method is post
     if request.method == 'POST':
         regForm = registerForm(request.POST)
-
         userIns = User()
         userIns.email = request.POST['email']
         userIns.username = request.POST['email']
         userIns.set_password(request.POST['password'])
         userIns.first_name = request.POST['first_name']
         userIns.last_name = request.POST['last_name']
-        userIns.save()
+        try:
+            userIns.save()
+        except:
+            return HttpResponseRedirect(reverse('register'))
 
         userIns2 = User_Profile()
         userIns2.user_id = userIns.id
@@ -54,4 +56,4 @@ def register(request):
     regForm.fields["contact_num"].label = 'Contact number'
 
 
-    return render(request, 'main/register.html', {'otherVars':otherVars,'regForm':regForm,'hgrps':hgrps})
+    return render(request, 'main/register.html', {'otherVars':otherVars,'regForm':regForm,'hgrps':hgrps,})
