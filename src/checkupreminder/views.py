@@ -12,7 +12,7 @@ from src.login.decorator import login_active_required
 
 @login_active_required(login_url=reverse_lazy('login'))
 def reminder(request):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
 
     if request.method == 'POST':
         # remForm = reminderForm(request.POST)
@@ -43,7 +43,6 @@ def reminder(request):
             otherVars.update({'msgNote': 'Send Complete'})
     else:
         pass
-        # remForm = reminderForm()
 
 # Define header groups
     screentable = []
@@ -52,14 +51,11 @@ def reminder(request):
         screentable.append({'screening_name':i.screeningName, 'value':i.id})
     hgrps = ({'name':'Type of check up','lblwidth':'400'},)
 
-   # remForm.fields["checkup1"].widget.attrs['hgrp'] = '0'
-   # remForm.fields["checkup1"].widget.attrs['wsize'] = '100'
-
     return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps, 'screenTable':screentable})
 
 @login_active_required(login_url=reverse_lazy('login'))
 def addScreening(request):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
     # if request method is post
     if request.method == 'POST':
         addnewscreening = addScreeningForm(request.POST)

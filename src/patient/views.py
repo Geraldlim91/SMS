@@ -14,7 +14,7 @@ from src.util.customfunc import symptomcheck
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientView(request, msgNote=""):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
 
     displayMsg = None
     if msgNote:
@@ -54,7 +54,7 @@ def patientView(request, msgNote=""):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientViewUpdate(request):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
 
     if request.method == 'POST':
         sortingNames = ['nric', 'full_name', 'gender', 'age', 'visit_time',]
@@ -142,7 +142,7 @@ def patientViewUpdate(request):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientAdd(request):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
 
     # if request method is post
     if request.method == 'POST':
@@ -307,7 +307,7 @@ def patientEdit(request, nricvalue=None):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientCaseAdd(request, nricvalue=None ):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
     # if request method is post
     if request.method == 'POST':
         addPatientCaseForm = AddPatientCaseForm(request.POST)

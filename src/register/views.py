@@ -12,28 +12,21 @@ def register(request):
     # if request method is post
     if request.method == 'POST':
         regForm = registerForm(request.POST)
-        #
-        # # input validation for add user and user profile form
-        if regForm.is_valid():
 
-            # save the user and user profile object into database
-            userIns = User()
-            userIns.email = request.POST['email']
-            userIns.username = request.POST['email']
-            userIns.set_password(request.POST['password'])
-            userIns.first_name = request.POST['first_name']
-            userIns.last_name = request.POST['last_name']
+        userIns = User()
+        userIns.email = request.POST['email']
+        userIns.username = request.POST['email']
+        userIns.set_password(request.POST['password'])
+        userIns.first_name = request.POST['first_name']
+        userIns.last_name = request.POST['last_name']
+        userIns.save()
 
-            userIns.save()
+        userIns2 = User_Profile()
+        userIns2.user_id = userIns.id
+        userIns2.contact_num = request.POST['contact_num']
 
-            userIns2 = User_Profile()
-            userIns2.user_id = userIns.id
-            userIns2.contact_num = request.POST['contact_num']
-
-            userIns2.save()
-            return HttpResponseRedirect(reverse('login'))
-        else:
-            pass
+        userIns2.save()
+        return HttpResponseRedirect(reverse('login'))
     else:
         regForm = registerForm()
 
