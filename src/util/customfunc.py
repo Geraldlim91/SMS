@@ -26,21 +26,7 @@ def symptomcheck(symptoms):
         diagnosis_list.append(di['diagnosis'])
 
     return diagnosis_list
-
-
-# def issueinformation(issue):
-#     des_list = []
-#     with open(BASE_DIR + '/src/util/json/issue.json') as json_data:
-#         data = json.load(json_data)
-#         for d in data:
-#             if (d.has_key(issue)):
-#                  des_list += d[issue]
-#     json_data.close()
-#     return des_list
-#
 print symptomcheck(['Back pain',])
-# print issueinformation('Reflux Disease')
-
 
 def getSign(boolean, status, id):
     sign = '<span class="fa %s" style="color:%s; cursor:pointer;"  title=\'Toggle %s\' onclick=\"javascript:window.location.href=\'changestatus%s/%s\'\" />'
