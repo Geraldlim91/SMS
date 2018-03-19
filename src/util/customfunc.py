@@ -27,8 +27,6 @@ def symptomcheck(symptoms):
 
     return diagnosis_list
 
-print symptomcheck(['Back pain',])
-
 def getSign(boolean, status, id):
     sign = '<span class="fa %s" style="color:%s; cursor:pointer;"  title=\'Toggle %s\' onclick=\"javascript:window.location.href=\'changestatus%s/%s\'\" />'
     if status == 'PGactive':
