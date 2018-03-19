@@ -1,21 +1,33 @@
 import random
 import os
-import json
+import simplejson as json
 import datetime
 import string
-
+from src.settings import BASE_DIR
 
 def symptomcheck(symptoms):
     diagnoses = []
-    with open('../util/json/symptoms.json') as json_data:
+    with open(BASE_DIR+'/src/util/json/symptoms.json') as json_data:
         data = json.load(json_data)
         for d in data:
             for s in symptoms:
                 if (d.has_key(s)):
                     diagnoses.append(d)
-
     json_data.close()
-    return diagnoses
+
+    possible_diagnoses = list()
+    for diag in diagnoses:
+        key_list = diag.keys()
+        for k in key_list:
+            possible_diagnoses += diag[k]
+
+    diagnosis_list = list()
+    for di in possible_diagnoses:
+        diagnosis_list.append(di['diagnosis'])
+
+    return diagnosis_list
+
+print symptomcheck(['Back pain',])
 
 def getSign(boolean, status, id):
     sign = '<span class="fa %s" style="color:%s; cursor:pointer;"  title=\'Toggle %s\' onclick=\"javascript:window.location.href=\'changestatus%s/%s\'\" />'

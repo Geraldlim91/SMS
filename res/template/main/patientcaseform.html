@@ -181,6 +181,11 @@
                         </div>
 
                     </div>
+                    {% if groupH.name == 'Symptoms Checker' %}
+                        <input class="btn btn-info submit_btn" type="submit" value="Generate" name="submit" />
+                    {% endif %}
+
+
                 {% endfor %}
 
 

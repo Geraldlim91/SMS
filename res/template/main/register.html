@@ -132,6 +132,11 @@
 {% block content %}
     <div class="container">
         <div style="padding:0px 15px 15px 15px;">
+                {% if otherVars.msgNote %}
+            <span id="msgNotify">
+            {{ otherVars.msgNote|safe }}
+        </span>
+        {% endif %}
             <span id="page_header">
             Register
             </span>

@@ -309,67 +309,61 @@ def patientEdit(request, nricvalue=None):
 def patientCaseAdd(request, nricvalue=None ):
     otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
     # if request method is post
+    hgrps = ({'name':'Symptoms Checker','lblwidth':'160', 'value':'1'},{'name':'Case Information','lblwidth':'160'},)
     if request.method == 'POST':
         addPatientCaseForm = AddPatientCaseForm(request.POST)
         # input validation for add user and user profile form
-        if addPatientCaseForm.is_valid():
+        if str(request.POST).__contains__("Generate"):
+            recordIns = Patient_Record()
+            recordIns.symptoms = request.POST['symptoms']
+            symptoms = str(request.POST['symptoms']).split(',')
+            list_dict = symptomcheck(symptoms)
+
+            d = ''
+            for dig in list_dict:
+                d += dig + '\n'
+
+            addPatientCaseForm = AddPatientCaseForm(initial={
+                'nric': nricvalue,
+                'symptoms':recordIns.symptoms,
+                'diagnosis':'List of Possible Diagnosis: ' + '\n' + '\n' + d})
+
+
+        elif addPatientCaseForm.is_valid() and not str(request.POST).__contains__('Generate'):
         # save the user and user profile object into database
             recordIns = Patient_Record()
-            recordIns.nric = nricvalue
+            recordIns.nric_id = nricvalue
             recordIns.medical_description = request.POST['medical_description']
             recordIns.medical_history = request.POST['medical_history']
             recordIns.symptoms = request.POST['symptoms']
-            recordIns.address = request.POST['address']
             recordIns.diagnosis = request.POST['diagnosis']
             recordIns.visit_time = time()
             recordIns.save()
 
-            symptoms = list()
-            symptoms.append(request.POST['symptoms'])
-            list_dict = symptomcheck(symptoms)
-            possible_diagnoses = list()
-            for diag in list_dict:
-                key_list = diag.keys()
-                for k in key_list:
-                    possible_diagnoses += diag[k]
 
-
-            # for diag in list_dict:
-            #     for key,value in diag:
-            #         listdiag = value
-            #     print key
-
-
-            #     key_list = diag.keys()
-            # for diag in list_dict:
-            #     for k in key_list:
-            #         possible_diagnoses = diag[k]
-            #
-
-
-
-
-            return HttpResponseRedirect(reverse('patientView'))
+            return HttpResponseRedirect(('../editpatient/' +nricvalue))
     else:
         addPatientCaseForm = AddPatientCaseForm(initial={
-            'nric': nricvalue})
+            'nric': nricvalue,
+            })
 
     # Define header groups
-    hgrps = ({'name':'Case Information','lblwidth':'160'},)
     # For first header group
-    addPatientCaseForm.fields["nric"].widget.attrs['hgrp'] = '0'
-    addPatientCaseForm.fields["nric"].widget.attrs['wsize'] = '300'
-
-    addPatientCaseForm.fields["medical_description"].widget.attrs['hgrp'] = '0'
-    addPatientCaseForm.fields["medical_description"].widget.attrs['wsize'] = '600'
-
-    addPatientCaseForm.fields["medical_history"].widget.attrs['hgrp'] = '0'
-    addPatientCaseForm.fields["medical_history"].widget.attrs['wsize'] = '600'
 
     addPatientCaseForm.fields["symptoms"].widget.attrs['hgrp'] = '0'
     addPatientCaseForm.fields["symptoms"].widget.attrs['wsize'] = '300'
 
     addPatientCaseForm.fields["diagnosis"].widget.attrs['hgrp'] = '0'
     addPatientCaseForm.fields["diagnosis"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["nric"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientCaseForm.fields["medical_description"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["medical_description"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["medical_history"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["medical_history"].widget.attrs['wsize'] = '600'
+
 
     return render(request, 'main/patientcaseform.html', {'otherVars':otherVars,'addPatientCaseForm':addPatientCaseForm,'hgrps':hgrps})
