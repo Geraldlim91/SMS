@@ -317,21 +317,21 @@
             {{ otherVars.msgNote|safe }}
         </span>
         {% endif %}
-            <span id="btn_add" class="btn btn-info" onclick="javascript:window.location.href='{% url 'patientAdd' %}'">
+            <span id="btn_add" class="btn btn-info" onclick="javascript:window.location.href='../addcase/' + '{{ otherVars.nric }}' ">
             <i class="fa fa-plus" style="margin-right:10px;"></i>Add Case
             </span>
         <table id="view_tab" class="table table-bordered">
             <thead>
             <tr style="background-color:#F0F0F0">
-                <th class="sortableH defaultSort searchableCol" value="0">id</th>
+                <th class="sortableH defaultSort halign_center searchableCol" value="0">ID</th>
                 <th class="sortableH searchableCol" value="2">Symptoms</th>
-                <th class="sortableH searchableCol" value="3">Diagnosis</th>
+                <th class="searchableCol" value="3">Diagnosis</th>
                 <th class="sortableH searchableCol" value="4">Record Created On</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td class="checkActVal" title="Edit"></td>
+                <td class="checkActVal halign_center" title="Edit"></td>
                 <td></td>
                 <td></td>
                 <td></td>
@@ -389,7 +389,7 @@
 
             // Build the table
             $('#view_tab').buildTable({
-                {#updateUrl : "{% url 'patientViewUpdate' %}",#}
+                updateUrl : '../case/new/' + '{{ otherVars.nric }}',
                 initialValues : {{ tableInfo.caseList|safe }},
                 availCheckAct : false,
                 checkSingleOnly : false,

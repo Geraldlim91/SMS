@@ -17,7 +17,7 @@ class Patient(models.Model):
     email = models.EmailField()
     allergy = models.CharField(max_length=100)
     contact_num = models.CharField(max_length=20)
-    visit_time = models.TimeField()
+    visit_time = models.TimeField(default=django.utils.timezone.now)
 
     class Meta:
         db_table = 'patient'

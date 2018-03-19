@@ -122,6 +122,7 @@
 {% endblock %}
 
 {% block content %}
+    <div class="container">
     <div style="padding:15px 15px 0px 15px;">
         <span id="page_header">Current Patient(s)</span>
         {% if otherVars.msgNote %}
@@ -135,20 +136,22 @@
         <table id="view_tab" class="table table-bordered">
             <thead>
             <tr style="background-color:#F0F0F0">
-                <th class="sortableH defaultSort searchableCol" value="0">NRIC</th>
+                <th class="sortableH defaultSort halign_center searchableCol" value="0">NRIC</th>
                 <th class="sortableH searchableCol" value="2">Full Name</th>
-                <th class="sortableH searchableCol" value="3">Gender</th>
-                <th class="sortableH searchableCol" value="4">Age</th>
-                <th class="sortableH searchableCol" value="5">Visit Time</th>
+                <th class="sortableH searchableCol halign_center" value="3">Gender</th>
+                <th class="sortableH halign_center " value="4">Age</th>
+                <th class="sortableH searchableCol halign_center" value="5">Visit Time</th>
+                <th class="sortableH halign_center" value="5">Case</th>
             </tr>
             </thead>
             <tbody>
             <tr>
-                <td class="checkActVal" title="Edit"></td>
+                <td class="checkActVal halign_center" title="Edit"></td>
                 <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="halign_center"></td>
+                <td class="halign_center"></td>
+                <td class="halign_center"></td>
+                <td class="halign_center"></td>
             </tr>
             </tbody>
         </table>
@@ -158,6 +161,7 @@
                 <span id="selAmt"></span>&nbsp;{{ delMsg.1 }}
             </p>
         </div>
+    </div>
     </div>
 {% endblock %}
 
@@ -202,9 +206,9 @@
             $('#view_tab').buildTable({
                 updateUrl : "{% url 'patientViewUpdate' %}",
                 initialValues : {{ tableInfo.patientList|safe }},
-                availCheckAct : ['Edit','Delete'],
+                availCheckAct : false,
                 checkSingleOnly : ['Edit'],
-                addCheckable : true,
+                addCheckable : false,
                 checkActFunc : function(checkValArr){
                     selectActHandler(this,checkValArr);
                 },

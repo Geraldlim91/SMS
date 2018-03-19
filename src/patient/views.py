@@ -33,6 +33,7 @@ def patientView(request, msgNote=""):
             patientObj.gender,
             str(patientObj.age),
             str(patientObj.visit_time),
+            '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/addcase/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
         ])
     tableInfo = {'patientList': json.dumps(patientList), 'numOfRecords': numOfRecords}
 
@@ -121,6 +122,7 @@ def patientViewUpdate(request):
                 patientObj.gender,
                 str(patientObj.age),
                 str(patientObj.visit_time),
+                '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/addcase/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
             ])
 
         tableInfo = {'valueList': userList, 'numOfRecords': numOfRecords}
@@ -208,20 +210,10 @@ def patientAdd(request):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientEdit(request, nricvalue=None):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name,'edit': 'Y'}
-
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name,'edit': 'Y', 'nric':nricvalue}
     patientObj = get_or_none(Patient, nric=nricvalue)
-    # Define header groups
-
-    # if request method is post\
-
     if request.method == 'POST':
         addPatientForm = AddPatientForm(request.POST)
-
-        # input validation for add user and user profile form
-
-
-            # update user information
         if addPatientForm.is_valid():
             patientObj.nric = request.POST['nric']
             patientObj.full_name = request.POST['full_name']
@@ -304,6 +296,88 @@ def patientEdit(request, nricvalue=None):
     tabEmptyMsg = 'Patient has no previous medical case to show'
     return render(request, 'main/patientchng.html', {'otherVars': otherVars, 'hgrps': hgrps, 'addPatientForm': addPatientForm,'tableInfo': tableInfo,'tabEmptyMsg': tabEmptyMsg,})
 
+@login_active_required(login_url=reverse_lazy('login'))
+def caseViewUpdate(request, nricvalue=None):
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
+
+    if request.method == 'POST':
+        sortingNames = ['id', 'symptoms', 'diagnosis', 'record_create_datetime',]
+        sortOrder = []
+        for val in json.loads(request.POST['sortingType']):
+            sortOrder.append(('-' if val['order'] == 1 else '') + sortingNames[val['value']])
+
+        query = Q()
+        if 'searchText' in request.POST:
+            searchText = json.loads(request.POST['searchText'])
+            tSearchArr = []
+            fInputArr = []
+            for sItem in searchText:
+                if sItem['searchType'] == 'sText':
+                    tSearchArr = [('id__icontains', sItem['searchTerm']),
+                                  ('symptoms__icontains', sItem['searchTerm']),
+                                  ('diagnosis__icontains', sItem['searchTerm']),
+                                  ('record_create_datetime__icontains', sItem['searchTerm'])]
+
+                    if isInt(sItem['searchTerm']):
+                        tSearchArr.append(('id', int(sItem['searchTerm'])))
+            for item in [Q(x) for x in tSearchArr]:
+                query |= item
+            for item in [Q(x) for x in fInputArr]:
+                query &= item
+
+        if query:
+            numOfRecords = Patient_Record.objects.filter(query).count()
+        else:
+            numOfRecords = Patient_Record.objects.filter(nric=nricvalue).count()
+
+        recordStart = int(request.POST['recordStart'])
+        recordEnd = int(request.POST['recordEnd'])
+        pageLength = int(request.POST['pageLength'])
+
+        if 'paginate' in request.POST:
+            paginate = request.POST['paginate']
+            if paginate == 'next':
+                recordStart = recordEnd + 1
+            elif paginate == 'prev':
+                recordStart -= pageLength
+            elif paginate == 'first':
+                recordStart = 1
+            elif paginate == 'last':
+                recordStart = numOfRecords - pageLength + 1
+        if recordStart > numOfRecords:
+            recordStart = numOfRecords
+        if recordStart < 1 or 'firstSearch' in request.POST:
+            recordStart = 1
+        if query:
+            caseObjects = Patient_Record.objects.filter(query).order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
+        else:
+            caseObjects = Patient_Record.objects.all().order_by(*sortOrder)[recordStart - 1:recordStart + pageLength - 1]
+
+        listLength = len(caseObjects)
+        caseList = []
+        for caseObj in caseObjects:
+            caseList.append([
+                caseObj.id,
+                caseObj.symptoms,
+                caseObj.diagnosis,
+                str(caseObj.record_create_datetime),
+            ])
+
+        tableInfo = {'valueList': caseList, 'numOfRecords': numOfRecords}
+        if listLength > 0:
+            recordEnd = recordStart + listLength - 1
+            if recordStart > 1:
+                tableInfo['prevEnabled'] = 'Y'
+            if recordEnd < numOfRecords:
+                tableInfo['nextEnabled'] = 'Y'
+        else:
+            recordStart = 0
+            recordEnd = 0
+        tableInfo['recordStart'] = recordStart
+        tableInfo['recordEnd'] = recordEnd
+        return HttpResponse(json.dumps(tableInfo))
+    else:
+        return HttpResponseRedirect(('../editpatient/' + nricvalue))
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientCaseAdd(request, nricvalue=None ):
