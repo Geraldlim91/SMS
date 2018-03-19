@@ -1,0 +1,68 @@
+[
+  {
+    "German measles": {
+
+    "Description": "Rubella is a viral illness.  It usually affects school children and its less infectious than mumps or measles.",
+    "DescriptionShort": "Rubella is a viral illness with noticeable splotchy skin rash, light fever, and swelling of the lymph nodes in the throat. A vaccination against rubella is available.",
+    "MedicalCondition": "The victim usually shows signs of a fever follow by a splotchy skin rash that usually lasts 3 days and begins behind the ears.  Additionally, swelling of the lymph nodes in the throat occurs.  Rubella can be very dangerous for those who are pregnant.  Pregnant women should have extra care to prevent contact with affected people, rubella can seriously harm the embryo.  It’s important, before becoming pregnant, to check the vaccination status.",
+    "Name": "German measles",
+    "PossibleSymptoms": "Fever,Skin rash,Swollen glands on the neck",
+    "ProfName": "Rubella",
+    "Synonyms": null,
+    "TreatmentDescription": "There is no actual treatment for rubella, but a vaccine has been developed to protect from the disease.  There are two required vaccinations: the first is given at 12 months of age and the second between the 15th and 24th months.  It’s a combination of vaccines that covers measles, mumps, and rubella (MMR)."
+
+    }
+
+  },
+  {
+    "Huntington's disease": {
+    "Description": "Huntington’s disease (previously Huntington’s chorea) is a genetic disorder in which patients experience personality disorders, dementia, and uncontrollable, asymmetrical movements.  It affects about 5-10 people in every 100,000.",
+    "DescriptionShort": "Huntington’s disease (previously Huntington’s chorea) is a genetic disorder in which patients experience personality disorders, dementia, and uncontrollable, asymmetrical movements.",
+    "MedicalCondition": "The first symptoms usually appear when the patient is in their 40s or 50s. patients experience psychiatric disorders (personality changes, dementia, depression, psychosis) and typical bizarre movement disorders.",
+    "Name": "Huntington's disease",
+    "PossibleSymptoms": null,
+    "ProfName": "Huntington's chorea",
+    "Synonyms": null,
+    "TreatmentDescription": "Huntington’s disease has no cure.  However, attempts can be made with symptoms specific medication."
+  }
+  },
+
+  {
+    "Listeria infection": {
+    "Description": "Listeriosis is a foodborne bacterial infection. The bacterium is called listeria monocytogenes and exists in the soil and water. It can contaminate food, especially raw food like soft cheese and it can even survive at the low temperatures of a refrigerator.",
+    "DescriptionShort": "Listeriosis is an infectious disease that is caused by food that is contaminated with a bacterium called \"Listeria monocytogenes.” Patients show flu-like symptoms and sometimes even develop meningitis. Listeriosis especially affects those with weak immune systems, very old people, pregnant women, or newborns. A prompt antibiotic treatment is necessary.",
+    "MedicalCondition": "Listeriosis mainly affects people with weaker immune systems, for example older people, pregnant women and newborns. Patients infected with listeriosis may have symptoms including nausea and vomiting, fever and chills, stomach problems and headache. Sometimes they may develop septicemia or meningitis.",
+    "Name": "Listeria infection",
+    "PossibleSymptoms": "Abdominal pain,Fever,Pain in the limbs",
+    "ProfName": "Listeriosis",
+    "Synonyms": null,
+    "TreatmentDescription": "As listeriosis is a foodborne infection, there are some hygiene-related tips to prevent it. For example: 1) avoiding raw food such raw milk and raw cheese, 2) heating up the food or leftovers that are stored in the refrigerator before eating and 3) always washing food before eating. Because Listeriosis is a bacterial infection, the treatment is with antibiotics."
+  }
+  },
+  {
+    "Lyme disease": {
+    "Description": "Lyme disease is a bacterial infection spread by ticks that can affect various organs, including the skin, nervous system, musculoskeletal system, and the heart.",
+    "DescriptionShort": "Lyme disease (Lyme borreliosis) is an infectious bacterial disease spread by ticks that affects the skin, nervous system, musculoskeletal system, and the heart.  It can be treated with antibiotics.",
+    "MedicalCondition": "Three stages of the disease are recognized.  In the first stage, a couple of days after the bite, a red ring or bullseye on the skin (Erythema migrans) appears, which may be preceded by headaches, lethargy, fever, and joint pain.  The redness can last several days to a week and usually heals on its own.  In the second stage, after several weeks or months, some patients will experience an attack on the joints, meninges, nerve roots, the skin, and (rarely) the heart.  This leads to the third stage, if it is left untreated, which is damage to the organs.",
+    "Name": "Lyme disease",
+    "PossibleSymptoms": "Pain in the limbs,Skin rash,Headache,Tiredness,Paralysis,Fever",
+    "ProfName": "Lyme borreliosis",
+    "Synonyms": null,
+    "TreatmentDescription": "If Lyme disease is identified too late, it can establish itself as chronic symptoms such as lethargy, trouble concentrating, and headaches.  Because Lyme’s disease is caused by bacteria, it can be successfully treated in the early stage with antibiotics.  Therefore, if bitten by a tick and the above symptoms appear, seek out a doctor immediately.   Tips for dealing with tick bites: 1) You can prevent tick bites by wearing long sleeves and pants, staying out of the under bush and areas with tall grass, and checking yourself for ticks after your excursion.  2) If you were bitten by a tick, remove it from your skin with a pair of tweezers (some tweezers are made especially for this purpose) without crushing the tick and then disinfect the bite area.  Do not use oil or other substances to “suffocate” the tick - this will only cause the tick to expel any pathogens it carries."
+  }
+  },
+
+  {
+    "Reflux disease": {
+  "Description": "Reflux disease is very common worldwide.  It is usually due to a backflow of stomach acid through a weakened esophagus.  If this occurs regularly, it will develop into gastroesophageal reflux disease, a burning of the mucous membrane in the esophagus.",
+  "DescriptionShort": "Gastroesophageal reflux disease is often referred to as gastric or acid reflux disease, as this is the most common complaint.  The cause of this symptom is a backflow of stomach acid into the esophagus, which then causes a burning sensation (hence the name).",
+  "MedicalCondition": "Gastroesophageal reflux disease occurs in about 20% of the population in industrial countries.  The main symptom is a dull burning, or feelings of pain or pressure in the throat and chest areas, which is where it gets the common name heartburn.  It frequently occurs when lying down (at night for example), after copious eating, or after consumption of alcohol and can become noticeable as a chronic cough.",
+  "Name": "Reflux disease",
+  "PossibleSymptoms": "Burning in the throat,Chest pain,Cough,Early satiety,Heartburn,Hiccups,Pain on swallowing,Sore throat,Abdominal pain,Stomach burning,Vomiting,Vomiting blood",
+  "ProfName": "Gastroesophageal reflux disease",
+  "Synonyms": "GERD",
+  "TreatmentDescription": "In certain cases, damage to the mucous membrane in the throat can become permanent (Barrett’s esophagus) which requires regular check-ups with a specialist, since this damage can degenerate.  For people suffering from this, it’s recommended that they maintain a low-fat diet, avoid eating meals late at night, quit smoking and using alcohol, and in the case of overweight patients a reduction in weight it recommended.  Medications that reduce stomach acid (proton pump inhibitors, for example) have been shown to be effective, but they do not treat the cause of the reflux of acid.  Furthermore, a test to discover if a stomach infection of Helicobacter pylori is at play may be appropriate, since this can cause or intensify heartburn.  In most cases this can be cured with a treatment of antibiotics."
+}
+  }
+
+]
