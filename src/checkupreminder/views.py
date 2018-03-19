@@ -48,7 +48,7 @@ def reminder(request):
     screentable = []
     screen = NotificationCriteria.objects.all().order_by('id')
     for i in screen:
-        screentable.append({'screening_name':i.screeningName, 'value':i.id})
+        screentable.append({'screening_name':i.screeningName, 'value':i.id, 'description': i.description})
     hgrps = ({'name':'Type of check up','lblwidth':'400'},)
 
     return render(request, 'main/checkupreminder.html', {'otherVars': otherVars, 'hgrps': hgrps, 'screenTable':screentable})
