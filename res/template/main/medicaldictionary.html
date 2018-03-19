@@ -4,7 +4,7 @@
 {% load widget_tweaks %}
 
 {% block title %}
-	Registration
+	Medical Dictionary
 {% endblock %}
 
 {% block misc_head %}
@@ -132,13 +132,13 @@
 {% block content %}
     <div class="container">
         <div style="padding:0px 15px 15px 15px;">
-            <span id="page_header">
-                        {% if not otherVars.edit %}
-            Add New Patient Case
-        {% else %}
-            Edit and View Patient Case
+                {% if otherVars.msgNote %}
+            <span id="msgNotify">
+            {{ otherVars.msgNote|safe }}
+        </span>
         {% endif %}
-
+            <span id="page_header">
+            Register
             </span>
             <form enctype="multipart/form-data" action="" method="post">
                 {% csrf_token %}
@@ -150,7 +150,7 @@
                         <div class="group_body">
                             <div class="form-horizontal">
                                 {% with counternum=forloop.counter0 %}
-                                    {% for formItem in addPatientCaseForm %}
+                                    {% for formItem in issueForm %}
                                         {% if formItem.field.widget.attrs.hgrp == counternum|lower %}
 
                                             <div class="form-group">
@@ -185,44 +185,13 @@
                             </div>
                         </div>
 
-                                        {% if groupH.name == 'Symptoms Checker' %}
-                        <input class="btn btn-info submit_btn" type="submit" value="Generate" name="submit" />
-                    {% endif %}
                     </div>
-
-
-
                 {% endfor %}
-
-
-                {{ addPatientCaseForm.non_field_errors }}
-                <input class="btn btn-info submit_btn" type="submit" value="Confirm and {% if otherVars.profUpdate %}Update{% elif otherVars.passChange %}Change{% elif otherVars.edit %}Edit{% else %}Add{% endif %}" name="_submit" />
-                <a href="/main/login/"><input id="cancel_btn" class="btn btn-info" type="button" value="Cancel"></a>
+                {{ issueForm.non_field_errors }}
+                <input class="btn btn-info submit_btn" type="submit" value="Get" name="_submit" />
+                <a href="{% url 'patientView' %}"><input id="cancel_btn" class="btn btn-info" type="button" value="Back"></a>
             </form>
         </div>
     </div>
 
-{% endblock %}
-
-{% block misc_docend %}
-	<script type="text/javascript">
-		function extensionCheck(element){r
-			var control = $(element);
-			var ext = control.val().split('.').pop().toLowerCase();
-			if($.inArray(ext, ['gif','png','jpg','jpeg']) == -1) {
-				control.wrap('<form>').closest('form').get(0).reset();
-				control.unwrap();
-			    //control.replaceWith(control = control.clone(true));
-			    alert('Invalid extension!');
-			}
-		}
-
-		$(document).ready(function(){
-			if ($('#id_avatar_img').length){
-				$('#id_avatar_img').change(function(){
-					extensionCheck(this);
-				})
-			}
-		});
-	</script>
 {% endblock %}

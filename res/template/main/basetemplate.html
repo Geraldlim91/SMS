@@ -140,8 +140,9 @@
 						<span class="icon-bar" style="background-color: black"></span> -->
 					</button>
                     {% if not otherVars.pageType or otherVars.pageType == "logon" %}
-					<a class="navbar-brand" href="/main/patient/" style="color: black; font-size: 18px; font-weight: bold ">Home</a>
-					<a class="navbar-brand" href="/main/checkupreminder/" style="color: black; font-size: 18px; font-weight: bold ">Notification</a>
+					<a class="navbar-brand" href="{% url 'patientView' %}" style="color: black; font-size: 18px; font-weight: bold ">Home</a>
+					<a class="navbar-brand" href="{% url 'screenReminder' %}" style="color: black; font-size: 18px; font-weight: bold ">Notification</a>
+					<a class="navbar-brand" href="{% url 'issueDictionary' %}" style="color: black; font-size: 18px; font-weight: bold ">Dictionary</a>
                     {% endif %}
 				</div>
                  <!-- collection of nav links -->

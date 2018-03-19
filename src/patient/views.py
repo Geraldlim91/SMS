@@ -1,4 +1,3 @@
-import os
 import json
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
@@ -8,9 +7,9 @@ from django.db.models import Q
 from src.util.customfunc import isInt, get_or_none
 from src.login.decorator import login_active_required
 from models import Patient, Patient_Record
-from forms import AddPatientForm,AddPatientCaseForm
+from forms import AddPatientForm,AddPatientCaseForm, IssueDictonaryForm
 from datetime import date, time
-from src.util.customfunc import symptomcheck
+from src.util.customfunc import symptomcheck,issueinformation
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientView(request, msgNote=""):
@@ -55,8 +54,6 @@ def patientView(request, msgNote=""):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientViewUpdate(request):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
-
     if request.method == 'POST':
         sortingNames = ['nric', 'full_name', 'gender', 'age', 'visit_time',]
         sortOrder = []
@@ -210,7 +207,7 @@ def patientAdd(request):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientEdit(request, nricvalue=None):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name_name,'edit': 'Y', 'nric':nricvalue}
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name,'edit': 'Y', 'nric':nricvalue}
     patientObj = get_or_none(Patient, nric=nricvalue)
     if request.method == 'POST':
         addPatientForm = AddPatientForm(request.POST)
@@ -298,7 +295,6 @@ def patientEdit(request, nricvalue=None):
 
 @login_active_required(login_url=reverse_lazy('login'))
 def caseViewUpdate(request, nricvalue=None):
-    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
 
     if request.method == 'POST':
         sortingNames = ['id', 'symptoms', 'diagnosis', 'record_create_datetime',]
@@ -377,7 +373,7 @@ def caseViewUpdate(request, nricvalue=None):
         tableInfo['recordEnd'] = recordEnd
         return HttpResponse(json.dumps(tableInfo))
     else:
-        return HttpResponseRedirect(('../editpatient/' + nricvalue))
+        return HttpResponseRedirect(reverse('patientEdit', kwargs={'nricvalue': nricvalue}))
 
 @login_active_required(login_url=reverse_lazy('login'))
 def patientCaseAdd(request, nricvalue=None ):
@@ -389,13 +385,15 @@ def patientCaseAdd(request, nricvalue=None ):
         # input validation for add user and user profile form
         if str(request.POST).__contains__("Generate"):
             recordIns = Patient_Record()
-            recordIns.symptoms = request.POST['symptoms']
+            recordIns.symptoms = str(request.POST['symptoms']).lower()
             symptoms = str(request.POST['symptoms']).split(',')
             list_dict = symptomcheck(symptoms)
-
-            d = ''
-            for dig in list_dict:
-                d += dig + '\n'
+            if list_dict == []:
+                d = 'Cannot find Symptoms'
+            else:
+                d = ''
+                for dig in list_dict:
+                    d += dig + '\n'
 
             addPatientCaseForm = AddPatientCaseForm(initial={
                 'nric': nricvalue,
@@ -414,8 +412,7 @@ def patientCaseAdd(request, nricvalue=None ):
             recordIns.visit_time = time()
             recordIns.save()
 
-
-            return HttpResponseRedirect(('../editpatient/' +nricvalue))
+        return HttpResponseRedirect(reverse('patientEdit', kwargs={'nricvalue': nricvalue}))
     else:
         addPatientCaseForm = AddPatientCaseForm(initial={
             'nric': nricvalue,
@@ -441,3 +438,114 @@ def patientCaseAdd(request, nricvalue=None ):
 
 
     return render(request, 'main/patientcaseform.html', {'otherVars':otherVars,'addPatientCaseForm':addPatientCaseForm,'hgrps':hgrps})
+
+@login_active_required(login_url=reverse_lazy('login'))
+def patientCaseView(request, idvalue=None):
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name,'edit': 'Y'}
+    # if request method is post
+    caseObj = get_or_none(Patient_Record, id=idvalue)
+    hgrps = ({'name':'Symptoms Checker','lblwidth':'160', 'value':'1'},{'name':'Case Information','lblwidth':'160'},)
+    if request.method == 'POST':
+        addPatientCaseForm = AddPatientCaseForm(request.POST)
+        # input validation for add user and user profile form
+        if str(request.POST).__contains__("Generate"):
+            caseIns = Patient_Record()
+            caseIns.symptoms = str(request.POST['symptoms']).lower()
+            symptoms = str(request.POST['symptoms']).split(',')
+            list_dict = symptomcheck(symptoms)
+            if list_dict == []:
+                d = 'Cannot find Symptoms'
+            else:
+                d = ''
+                for dig in list_dict:
+                    d += dig + '\n'
+
+            addPatientCaseForm = AddPatientCaseForm(initial={
+                'nric': caseObj.nric_id,
+                'symptoms':caseIns.symptoms,
+                'diagnosis':'List of Possible Diagnosis: ' + '\n' + '\n' + d,
+                'medical_description': caseObj.medical_description,
+                'medical_history':caseObj.medical_history,
+            })
+
+
+        elif addPatientCaseForm.is_valid() and not str(request.POST).__contains__('Generate'):
+        # save the user and user profile object into database
+            caseIns = Patient_Record()
+            caseIns.id = idvalue
+            caseIns.nric_id = caseObj.nric_id
+            caseIns.medical_description = request.POST['medical_description']
+            caseIns.medical_history = request.POST['medical_history']
+            caseIns.symptoms = request.POST['symptoms']
+            caseIns.diagnosis = request.POST['diagnosis']
+            caseIns.visit_time = time()
+            caseIns.save()
+
+
+            return HttpResponseRedirect(reverse('patientEdit', kwargs={'nricvalue':caseObj.nric_id}))
+    else:
+        addPatientCaseForm = AddPatientCaseForm(initial={
+            'nric': caseObj.nric_id,
+            'symptoms': caseObj.symptoms,
+            'diagnosis': caseObj.diagnosis,
+            'medical_history': caseObj.medical_history,
+            'medical_description': caseObj.medical_description,
+            })
+
+    # Define header groups
+    # For first header group
+
+    addPatientCaseForm.fields["symptoms"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["symptoms"].widget.attrs['wsize'] = '300'
+
+    addPatientCaseForm.fields["diagnosis"].widget.attrs['hgrp'] = '0'
+    addPatientCaseForm.fields["diagnosis"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["nric"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["nric"].widget.attrs['wsize'] = '300'
+
+    addPatientCaseForm.fields["medical_description"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["medical_description"].widget.attrs['wsize'] = '600'
+
+    addPatientCaseForm.fields["medical_history"].widget.attrs['hgrp'] = '1'
+    addPatientCaseForm.fields["medical_history"].widget.attrs['wsize'] = '600'
+
+
+    return render(request, 'main/patientcaseform.html', {'otherVars':otherVars,'addPatientCaseForm':addPatientCaseForm,'hgrps':hgrps})
+
+@login_active_required(login_url=reverse_lazy('login'))
+def issueDictionary(request):
+    otherVars = {'pageType': 'logon', 'UserInfo': request.user.first_name}
+    # if request method is post
+    if request.method == 'POST':
+        issueForm = IssueDictonaryForm(request.POST)
+        # input validation for add user and user profile form
+        if issueForm.is_valid():
+            issue = str(request.POST['medicalTerm']).lower()
+            list_dict = issueinformation(issue)
+            if not list_dict ==[]:
+                d = ''
+                for dic in list_dict:
+                    d += dic + '\n'
+            else:
+                d = 'Cannot find definition'
+            issueForm = IssueDictonaryForm(initial={
+                'medicalTerm':issue,
+                'description':'Definition: ' + '\n' + '\n' + d})
+        else:
+            pass
+
+
+    else:
+        issueForm = IssueDictonaryForm()
+
+
+
+    hgrps = ({'name': 'Medical Dictionary', 'lblwidth': '160', 'value': '0'},)
+    issueForm.fields["medicalTerm"].widget.attrs['hgrp'] = '0'
+    issueForm.fields["medicalTerm"].widget.attrs['wsize'] = '300'
+
+    issueForm.fields["description"].widget.attrs['hgrp'] = '0'
+    issueForm.fields["description"].widget.attrs['wsize'] = '600'
+
+    return render(request, 'main/medicaldictionary.html', {'otherVars':otherVars,'issueForm':issueForm,'hgrps':hgrps})

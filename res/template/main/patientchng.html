@@ -4,7 +4,11 @@
 {% load widget_tweaks %}
 
 {% block title %}
-	Registration
+        {% if not otherVars.edit %}
+        Register New Patient
+    {% else %}
+        Edit and View Patient Details
+    {% endif %}
 {% endblock %}
 
 {% block misc_head %}
@@ -360,7 +364,7 @@
                 switch (selected){
                     case "Edit":
                         if (checkValArr.length == 1)
-                            window.location.href = "{% url 'patientEditUrl' %}" + checkValArr[0];
+                            window.location.href = "{% url 'patientCaseViewUrl' %}" + checkValArr[0];
                         break;
 
                         $("#dialog-confirm").dialog("open");
@@ -398,7 +402,7 @@
                     selectActHandler(this,checkValArr);
                 },
                 clickableFunc : function(){
-                        window.location.href = "{% url 'patientEditUrl' %}" + $(this).text();
+                        window.location.href = "{% url 'patientCaseViewUrl' %}" + $(this).text();
                     },
                 addFilInput : false,
                 {#availFilters : {{ filterVars|safe }},#}

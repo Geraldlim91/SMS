@@ -51,3 +51,6 @@ class AddPatientForm(forms.Form):
     
         return email
 
+class IssueDictonaryForm(forms.Form):
+    medicalTerm = forms.CharField(max_length=100, label="Medical Term")
+    description = forms.CharField(label="Description", widget=forms.Textarea, required=False)

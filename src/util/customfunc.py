@@ -36,11 +36,6 @@ def issueinformation(issue):
     json_data.close()
     return des_list
 
-
-print issueinformation('German measles')[0]
-print issueinformation('German measles')[1]
-
-
 # Checks if a value is an int
 def isInt(*args):
     try:
