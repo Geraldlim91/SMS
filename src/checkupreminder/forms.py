@@ -22,16 +22,20 @@ import re
     #if illness1 == False and illness2 == False:
      #   raise forms.ValidationError("You have not selected any illness!")
 
+GENDER = [
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+    ( 'Both', 'Both' ),
+]
+
 
 class addScreeningForm(forms.Form):
     screening_name = forms.CharField(max_length=32, label="Screening Name")
-    age_grp = forms.CharField(max_length=100, label="Age Group")
-    gender = forms.CharField(max_length=20, label="Gender", required=False)
+    age_grp = forms.CharField(max_length=100, label="Age Group",help_text="Enter age group in this format, lower age-upper age. Example 30-100")
+    gender = forms.CharField(label="Gender", widget=forms.Select(choices=GENDER))
     description = forms.CharField(label="Description",widget=forms.Textarea)
     message = forms.CharField(label="Reminder message",widget=forms.Textarea)
 
     class Meta:
         model = NotificationCriteria
         # exclude = ('last_login', 'date_joined', 'user_permissions', 'password', 'groups')
-
-

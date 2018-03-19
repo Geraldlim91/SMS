@@ -18,19 +18,23 @@ class AddPatientCaseForm(forms.Form):
     class Meta:
         model = Patient_Record
 
+GENDER = [
+    ('Male', 'Male'),
+    ('Female', 'Female'),
+]
 
 # add user form
 class AddPatientForm(forms.Form):
     nric = forms.CharField(max_length=32, label="NRIC")
     full_name = forms.CharField(max_length=100, label="Full Name")
     contact_num = forms.CharField(max_length=8, label="Contact Number")
-    gender = forms.CharField(max_length=20, label="Gender")
-    dob = forms.DateField(label="Date of Birth", help_text="Format in YYYY-MM-DD")
+    gender = forms.CharField(label="Gender", widget=forms.Select(choices=GENDER))
+    dob = forms.DateField(label="Date of Birth", help_text="Format in YYYY-MM-DD",widget=forms.DateInput)
     address = forms.CharField(max_length=200)
     postalcode = forms.CharField(max_length=10, label="Postal Code")
     nok = forms.CharField(max_length=100, label="Next-of-Kin")
     email = forms.CharField(max_length=50)
-    allergy = forms.CharField(max_length=100)
+    allergy = forms.CharField(max_length=100,help_text="No allergy, enter Nil")
 
     class Meta:
         model = Patient

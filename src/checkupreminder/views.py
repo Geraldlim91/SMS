@@ -65,7 +65,10 @@ def addScreening(request):
             newrecord = NotificationCriteria()
             newrecord.screeningName = request.POST['screening_name']
             newrecord.agegrp = request.POST['age_grp']
-            newrecord.gender = request.POST['gender']
+            if request.POST['gender'] == "Both":
+                newrecord.gender = None
+            else:
+                newrecord.gender = request.POST['gender']
             newrecord.description = request.POST['description']
             newrecord.message = request.POST['message']
             newrecord.save()
@@ -85,7 +88,7 @@ def addScreening(request):
     addnewscreening.fields["age_grp"].widget.attrs['wsize'] = '300'
 
     addnewscreening.fields["gender"].widget.attrs['hgrp'] = '0'
-    addnewscreening.fields["gender"].widget.attrs['wsize'] = '300'
+    addnewscreening.fields["gender"].widget.attrs['wsize'] = '120'
 
     addnewscreening.fields["description"].widget.attrs['hgrp'] = '0'
     addnewscreening.fields["description"].widget.attrs['wsize'] = '300'
