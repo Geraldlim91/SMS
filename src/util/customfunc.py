@@ -11,7 +11,7 @@ def symptomcheck(symptoms):
         data = json.load(json_data)
         for d in data:
             for s in symptoms:
-                if (d.has_key(s)):
+                if d.has_key(s.lower()):
                     diagnoses.append(d)
     json_data.close()
 
@@ -33,7 +33,7 @@ def issueinformation(issue):
     with open(BASE_DIR + '/src/util/json/issue.json') as json_data:
         data = json.load(json_data)
         for d in data:
-            if (d.has_key(issue)):
+            if d.has_key(issue.lower()):
                 des_list.append(d[issue]['Description'])
                 des_list.append(d[issue]['TreatmentDescription'])
 
@@ -42,6 +42,7 @@ def issueinformation(issue):
 
 
 print symptomcheck(['Back pain',])
+print issueinformation('')
 
 def getSign(boolean, status, id):
     sign = '<span class="fa %s" style="color:%s; cursor:pointer;"  title=\'Toggle %s\' onclick=\"javascript:window.location.href=\'changestatus%s/%s\'\" />'
