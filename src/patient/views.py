@@ -206,6 +206,7 @@ def patientAdd(request):
 
     return render(request, 'main/patientchng.html', {'otherVars':otherVars,'addPatientForm':addPatientForm,'hgrps':hgrps})
 
+@login_active_required(login_url=reverse_lazy('login'))
 def patientEdit(request, nricvalue=None):
     otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name,'edit': 'Y'}
 
@@ -304,12 +305,9 @@ def patientEdit(request, nricvalue=None):
     return render(request, 'main/patientchng.html', {'otherVars': otherVars, 'hgrps': hgrps, 'addPatientForm': addPatientForm,'tableInfo': tableInfo,'tabEmptyMsg': tabEmptyMsg,})
 
 
-
+@login_active_required(login_url=reverse_lazy('login'))
 def patientCaseAdd(request, nricvalue=None ):
     otherVars = {'pageType': 'logon', 'UserInfo': request.user.last_name}
-
-    print request.method
-
     # if request method is post
     if request.method == 'POST':
         addPatientCaseForm = AddPatientCaseForm(request.POST)

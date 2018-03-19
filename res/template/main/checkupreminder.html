@@ -146,13 +146,14 @@
                     {{ otherVars.msgNote|safe }}
                 </span>
                 {% endif %}
-                 <span id="page_header" style="display:inline;">
+                 <span id="page_header" >
                 Screening Reminder
-                </span>
-
                 <span id="add_new" style="display:inline; float:right;">
                     <a href="add/"><input class="btn btn-success" type="button" value="Add new screening reminder"/> </a>
                 </span>
+
+                </span>
+
             <form enctype="multipart/form-data" action="" method="post" action = "views.py" id="screeningReminder">
                 {% csrf_token %}
                 {% for groupH in hgrps %}

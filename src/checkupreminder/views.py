@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse,reverse_lazy
+from django.http import HttpResponseRedirect
 from forms import addScreeningForm
 from django.shortcuts import render
 from models import NotificationCriteria
@@ -72,6 +73,7 @@ def addScreening(request):
             newrecord.description = request.POST['description']
             newrecord.message = request.POST['message']
             newrecord.save()
+            return HttpResponseRedirect(reverse('screenReminder'))
         else:
             pass
     else:
