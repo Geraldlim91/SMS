@@ -32,7 +32,7 @@ def patientView(request, msgNote=""):
             patientObj.gender,
             str(patientObj.age),
             str(patientObj.visit_time),
-            '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/addcase/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
+            '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/case/add/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
         ])
     tableInfo = {'patientList': json.dumps(patientList), 'numOfRecords': numOfRecords}
 
@@ -119,7 +119,7 @@ def patientViewUpdate(request):
                 patientObj.gender,
                 str(patientObj.age),
                 str(patientObj.visit_time),
-                '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/addcase/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
+                '<span class=\'btn btn-info\' style="cursor:pointer;" onclick=\"javascript:window.location.href=\'/main/patient/case/add/%s\'\"><b>&nbsp;+ Case</b></span>' % patientObj.nric
             ])
 
         tableInfo = {'valueList': userList, 'numOfRecords': numOfRecords}
@@ -412,7 +412,7 @@ def patientCaseAdd(request, nricvalue=None ):
             recordIns.visit_time = time()
             recordIns.save()
 
-        return HttpResponseRedirect(reverse('patientEdit', kwargs={'nricvalue': nricvalue}))
+            return HttpResponseRedirect(reverse('patientEdit', kwargs={'nricvalue': nricvalue}))
     else:
         addPatientCaseForm = AddPatientCaseForm(initial={
             'nric': nricvalue,
