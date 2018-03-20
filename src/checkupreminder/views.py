@@ -34,7 +34,7 @@ def reminder(request):
                 p_gender = p.gender
                 p_age = int(p.age)
                 pArray.append(p.email)
-                if gender is None:
+                if p_gender is None:
                     if p_age >= l_age and p_age <= u_age:
                         SendMail(pArray,"Screening Reminder",message)
                 else:
