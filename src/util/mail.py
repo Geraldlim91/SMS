@@ -12,7 +12,7 @@ def SendMail(a_recipient, a_subject, a_message):
     recipient = uniq(a_recipient)
     sender = "Singapore Government Hospital <%s>" % ServerMail
 
-    msg = "Dear Ms/Mr, \n\n " + a_message + "\n\nRegards, \nSingapore Government Hospital \n\n--------------------------------------------------------------------------- \nThis is a computer generated email. No reply is required."
+    msg = "Dear Ms/Mr, \n\n" + a_message + "\n\nRegards, \nSingapore Government Hospital \n\n--------------------------------------------------------------------------- \nThis is a computer generated email. No reply is required."
     for eachEmail in recipient:
 
         message = """\

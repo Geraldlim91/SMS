@@ -6,7 +6,7 @@ from forms import addScreeningForm
 from django.shortcuts import render
 from models import NotificationCriteria
 from src.util.mail import SendMail
-from ..patient.models import Patient
+from src.patient.models import Patient
 from src.login.decorator import login_active_required
 
 
@@ -19,7 +19,6 @@ def reminder(request):
         screenings = request.POST.getlist('screening')
         if not request.POST.getlist('screening') :
             otherVars.update({'msgNote':'Please select a input'})
-
         for s in screenings:
             receipentGrp = NotificationCriteria.objects.get(id=int(s))
             agegroup = receipentGrp.agegrp
@@ -29,12 +28,12 @@ def reminder(request):
             l_age = int(l_age)
             u_age = int(u_age)
             pArray = []
-            patientObject = Patient.objects.all().order_by('nric')
+            patientObject = Patient.objects.all()
             for p in patientObject:
                 p_gender = p.gender
                 p_age = int(p.age)
                 pArray.append(p.email)
-                if p.gender == None:
+                if gender is None:
                     if p_age >= l_age and p_age <= u_age:
                         SendMail(pArray,"Screening Reminder",message)
                 else:
