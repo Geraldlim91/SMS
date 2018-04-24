@@ -11,8 +11,4 @@ class MONGO_CREDENTIALS:
     # DATABASE_USER       = 'stamp'
     # DATABASE_PASSWORD   = 'p@ssw0rd'
 
-
-ServerMail = 'noname.ssp1@gmail.com'
-ServerMailPassword = 'HelloNoName'
-
 DATE_INPUT_FORMATS = ['%d-%m-%Y']
